@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.18)
+project(sannycore CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Core (pure C++, no platform deps) + JNI bridge. Gradle's externalNativeBuild builds this target for Android ABIs.
+add_library(sannycore SHARED src/sbcore.cpp src/mainscm.cpp src/sbapi.cpp src/sb_jni.cpp)
+target_include_directories(sannycore PUBLIC include)
+if(ANDROID)
+  target_link_libraries(sannycore log)
+endif()
+
+# Host-side golden test (not built for Android)
+if(NOT ANDROID)
+  add_library(sbcore_static STATIC src/sbcore.cpp src/mainscm.cpp src/sbapi.cpp)
+  target_include_directories(sbcore_static PUBLIC include)
+  add_executable(sbtest tests/test_main.cpp)
+  target_link_libraries(sbtest sbcore_static)
+endif()
