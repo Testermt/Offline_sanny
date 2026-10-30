@@ -1,0 +1,11 @@
+name: Build sannycore WASM
+on: { workflow_dispatch: {}, push: { paths: ['sannycore/**'] } }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mymindstorm/setup-emsdk@v14
+      - run: bash sannycore/build_wasm.sh
+      - uses: actions/upload-artifact@v4
+        with: { name: sannycore-wasm, path: 'offline/sannycore.*' }

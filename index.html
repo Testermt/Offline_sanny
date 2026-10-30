@@ -1,0 +1,3924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6470770784210605"
+     crossorigin="anonymous"></script>
+
+ 
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8973LHLFH8"></script>
+<script>
+document.addEventListener('focusin', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.closest('.monaco-editor')) {
+    const viewport = document.querySelector('meta[name=viewport]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+    }
+  }
+});
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8973LHLFH8');
+  
+  
+</script>
+
+
+
+ <!-- Smart Redirect for GitHub to Vercel -->
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            window.location.replace("https://cleo-compiler-one.vercel.app/");
+        }
+    </script>
+    
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e8a33d">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((reg) => console.log('ServiceWorker registered! Scope:', reg.scope))
+        .catch((err) => console.log('ServiceWorker registration failed:', err));
+    });
+  }
+</script>
+
+    
+    
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>GTA SA Online CLEO Compiler</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0c0f14',
+          panel: '#12161d',
+          panel2: '#181d26',
+          hairline: '#242b36',
+          amber: '#e8a33d',
+          amberdim: '#8a6528',
+          teal: '#3fa9a0',
+          teal2: '#2e8a82',
+          bad: '#e05a4e',
+          good: '#57b06b',
+        },
+        fontFamily: {
+          mono: ['"JetBrains Mono"', '"Fira Code"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+          display: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { background: #0c0f14; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #12161d; }
+  ::-webkit-scrollbar-thumb { background: #242b36; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #303947; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+  .cursor-blink { animation: blink 1.2s step-end infinite; }
+  .hex-addr { font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+  
+          
+
+
+
+        
+  
+        html { 
+    background: #0c0f14; 
+    scroll-behavior: smooth;
+    height: auto !important;
+  }
+  
+  body { 
+    background: #0c0f14; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto !important;
+    position: static !important;
+    height: auto !important;
+    overflow-x: hidden;
+  }
+
+
+  #editor-container { 
+    height: 50vh !important; 
+    min-height: 200px !important; 
+    -webkit-touch-callout: default !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+  /* Fullscreen IDE Mode */
+  .fullscreen-editor { 
+    position: fixed !important; 
+    inset: 0 !important; 
+    z-index: 99999 !important; 
+    width: 100vw !important; 
+    height: 100vh !important; 
+    background: #0c0f14 !important; 
+    padding: 6px !important; 
+    display: flex !important; 
+    flex-direction: column !important; 
+  }
+
+  .fullscreen-editor #editor-container { 
+    height: calc(100vh - 50px) !important; 
+    flex: 1 !important; 
+  }
+
+
+
+    #editor-dropdown {
+    max-height: 75vh !important;
+    overflow-y: auto !important;
+    top: 100% !important;
+    right: 0 !important;
+  }
+
+  /* Dropdown ke buttons ki padding thodi kam ki taaki sab ek sath dikhein */
+  #editor-dropdown button {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+
+
+
+
+  .btn-press:active { transform: translateY(1px); }
+  .error-line-highlight { background-color: rgba(224, 90, 78, 0.20) !important; border-left: 3px solid #e05a4e !important; }
+
+  /* Hidden-scrollbar utility for the horizontally-scrollable mobile header nav */
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+  @media screen and (max-width: 640px) {
+    header .max-w-6xl { padding-left: 8px; padding-right: 8px; }
+    #header-nav-scroll { padding-right: 2px; }
+    main { padding-left: 8px !important; padding-right: 8px !important; }
+    
+    #editor-container { height: 46vh; min-height: 280px; }
+    .monaco-editor { font-size: 14px !important; }
+
+    /* Compact header nav buttons so they never clip / force desktop-site view */
+    #header-nav-scroll { gap: 4px !important; }
+    #header-nav-scroll > a.btn-press,
+    #header-nav-scroll > button.btn-press,
+    #header-nav-scroll > div > button.btn-press {
+      padding-left: 7px !important;
+      padding-right: 7px !important;
+    }
+    #header-icon-btn,
+    .header-icon-btn { width: 30px !important; height: 30px !important; }
+  }
+
+  /* ✨ SDK Editor Fullscreen mode */
+  #opcode-modal.sdk-fullscreen-active {
+    padding: 0 !important;
+  }
+  #opcode-modal-box.sdk-modal-fullscreen {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    max-height: 100vh !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+  #opcode-modal-box.sdk-modal-fullscreen #sdk-file-editor {
+    min-height: 0 !important;
+  }
+
+/* ✨ SDK Editor modal layout fix for mobile fullscreen & keyboard */
+  #sdk-files-tab {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto !important;
+  }
+  #sdk-file-editor {
+    flex: 1;
+    min-height: 180px !important;
+  }
+  #opcode-modal-box.sdk-modal-fullscreen {
+    display: flex;
+    flex-direction: column;
+  }
+  
+</style>
+</head>
+<body class="bg-ink text-gray-200 font-mono min-h-screen flex flex-col">
+
+  <input type="file" id="file-upload-input" accept=".txt,.cs,.csa,.csi,.sc,.scm" class="hidden" />
+  <input type="file" id="decompile-upload-input" accept=".cs,.csa,.csi" class="hidden" />
+  <input type="file" id="db-upload-input" accept=".db" class="hidden" />
+
+  <header class="border-b border-hairline bg-panel/95 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-7 h-7 rounded-sm bg-amber/10 border border-amber/40 flex items-center justify-center text-amber font-display font-bold text-xs shrink-0">
+          CS
+        </div>
+        <div class="min-w-0">
+          <h1 class="font-display font-semibold text-gray-100 text-xs sm:text-sm tracking-tight truncate">
+            GTA SA <span class="text-amber">CLEO</span> Compiler
+          </h1>
+          <p class="text-[9px] text-gray-500 hex-addr truncate">sanny.exe</p>
+        </div>
+      </div>
+
+      <div id="header-nav-scroll" class="flex items-center gap-1.5 min-w-0 overflow-x-auto no-scrollbar flex-nowrap py-0.5 -my-0.5">
+        <a href="community.html" class="header-icon-btn btn-press shrink-0 w-8 h-8 rounded-sm border border-teal/50 bg-teal/10 text-teal hover:bg-teal/20 transition-colors flex items-center justify-center text-sm font-bold text-decoration-none" title="Community Hub">
+          🌐
+        </a>
+
+        <button id="header-publish-btn" class="header-icon-btn btn-press shrink-0 w-8 h-8 rounded-sm border border-amber/50 bg-amber/10 text-amber hover:bg-amber/20 transition-colors flex items-center justify-center text-sm" title="Publish Script">
+          🚀
+        </button>
+        <a href="documentation.html" class="btn-press shrink-0 whitespace-nowrap text-[11px] px-2.5 py-1.5 rounded-sm border border-hairline text-gray-300 hover:text-amber transition-colors">📖 Docs</a>
+
+        <button id="resource-hub-btn" title="Game Resource IDs — Skins, Vehicles, Weapons, Objects"
+          class="btn-press shrink-0 whitespace-nowrap text-[11px] px-3 py-1.5 rounded-sm border border-hairline text-gray-300 hover:text-teal hover:border-teal/50 transition-colors flex items-center gap-1.5">
+          <span>🧩 Game Resource IDs</span>
+        </button>
+
+        <button id="opcode-btn" title="Game SDK & Definitions Manager"
+          class="btn-press shrink-0 whitespace-nowrap text-[11px] px-3 py-1.5 rounded-sm border border-hairline text-gray-300 hover:text-amber hover:border-amber/50 transition-colors flex items-center gap-1.5">
+          <span>Game SDK / Opcodes</span>
+          <span id="sdk-custom-badge" class="hidden text-[9px] leading-none bg-teal text-ink font-bold px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+
+        <div class="relative shrink-0">
+          <button id="gh-config-btn"
+            class="btn-press whitespace-nowrap text-[11px] px-3 py-1.5 rounded-sm border border-hairline bg-panel2 text-gray-200 hover:border-amber/50 transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span id="gh-btn-text">GitHub</span>
+          </button>
+          
+          <div id="gh-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-panel border border-hairline rounded-sm shadow-xl z-50 py-1 text-[11.5px]">
+            <div class="px-3 py-1.5 border-b border-hairline text-gray-400 truncate">
+              Repo: <strong id="gh-repo-label" class="text-amber">Not set</strong>
+            </div>
+            <button id="gh-save-source" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors">
+              💾 Save Source (.txt)
+            </button>
+            <button id="gh-save-compiled" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors">
+              ☁️ Save Compiled (.cs)
+            </button>
+            <div class="border-t border-hairline my-1"></div>
+            <button id="gh-publish-gist" class="w-full text-left px-3 py-2 text-teal hover:bg-panel2 transition-colors font-bold">
+              🚀 Publish to Community
+            </button>
+            <div class="border-t border-hairline my-1"></div>
+            <button id="gh-settings-open" class="w-full text-left px-3 py-2 text-amber hover:bg-panel2 transition-colors">
+              ⚙️ Configure Token/Repo
+            </button>
+            <button id="gh-disconnect" class="w-full text-left px-3 py-2 text-bad hover:bg-panel2 transition-colors">
+              🗑️ Disconnect Repo
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+        <!-- ERROR POPUP MODAL WITH ACTIVE AI FIX ASSISTANT -->
+  <div id="errorModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-bad/40 rounded-sm max-w-lg w-full p-4 sm:p-5 flex flex-col gap-3 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-hairline pb-2.5">
+        <h2 id="errorModalTitle" class="font-display text-xs sm:text-sm text-bad font-semibold">❌ Compilation Error</h2>
+        <button onclick="closeErrorModal()" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+      
+      <div class="flex flex-col gap-2.5 text-[11.5px]">
+        <div>
+          <label class="block text-gray-400 mb-1">Error Message / Suggestion:</label>
+          <div id="errorModalMsg" class="bg-panel2 text-bad border border-bad/30 rounded-sm p-2.5 font-mono text-xs max-h-28 overflow-y-auto select-text"></div>
+        </div>
+
+        <!-- ✨ Active AI Fix Assistant Box -->
+        <div>
+          <label class="block text-gray-400 mb-1 flex items-center justify-between">
+            <span>🤖 AI Fix Assistant:</span>
+            <span class="text-[9.5px] bg-teal/10 text-teal border border-teal/30 px-1.5 py-0.5 rounded">Active</span>
+          </label>
+          <div class="bg-panel2 text-gray-300 border border-hairline rounded-sm p-3 font-sans text-xs flex flex-col gap-2.5">
+            <p class="text-gray-400 leading-relaxed">
+              Click the button below to let AI automatically analyze this error and fix the faulty code in your editor.
+            </p>
+
+            <!-- ✨ AI Fix Custom Model Input Field -->
+<div>
+  <label class="block text-gray-400 mb-1 text-[11px]">AI Model Name for Fix (e.g. gemini-3.6-flash):</label>
+  <input type="text" id="aiFixModelInput" placeholder="gemini-3.6-flash" 
+    class="bg-ink text-gray-200 border border-hairline rounded-sm px-2.5 py-1.5 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+</div>
+
+
+            <button id="aiFixErrorBtn" class="btn-press py-2 px-3 bg-teal text-ink font-semibold rounded-sm hover:opacity-90 flex items-center justify-center gap-1.5 text-xs">
+              <span>✨ Fix this Error with AI</span>
+            </button>
+            <!-- AI Fix Output Area -->
+            <div id="aiFixOutputBox" class="hidden bg-ink text-gray-300 border border-hairline rounded-sm p-2.5 font-mono text-xs max-h-36 overflow-y-auto select-text whitespace-pre-wrap"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-between items-center pt-2 border-t border-hairline">
+        <button id="aiFixInsertBtn" class="btn-press text-[11px] px-3.5 py-1.5 bg-panel2 border border-hairline text-teal hover:border-teal rounded-sm hidden">📥 Insert Fixed Code to New Tab</button>
+        <button onclick="closeErrorModal()" class="btn-press text-[11px] px-4 py-1.5 bg-panel2 border border-hairline text-gray-300 hover:text-gray-100 rounded-sm">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div id="gh-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-hairline rounded-sm max-w-md w-full p-4 sm:p-5 flex flex-col gap-3.5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-hairline pb-2.5">
+        <h2 class="font-display text-xs sm:text-sm text-gray-100 font-semibold">GitHub Private Sync</h2>
+        <button id="gh-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+
+      <div class="bg-blue-900/10 border border-blue-500/20 p-2.5 rounded-sm">
+        <p class="text-[10px] text-blue-300 leading-relaxed">
+          <strong>🔒 Privacy:</strong> Token stored in browser local storage. Requires <code class="text-amber">repo</code> scope.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2.5 text-[11.5px]">
+        <div>
+          <label class="block text-gray-400 mb-1">GitHub PAT Token:</label>
+          <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxx" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+          <a href="https://github.com/settings/tokens" target="_blank" class="text-[10px] text-teal hover:underline mt-0.5 block">Generate new token</a>
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Repository Name (owner/repo):</label>
+          <input type="text" id="gh-repo-input" placeholder="e.g. Testermt/CleoSave" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+          <p class="text-[9.5px] text-gray-500 mt-0.5">Auto-creates as <strong>private</strong> if missing!</p>
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Branch:</label>
+          <input type="text" id="gh-branch-input" value="main" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+        </div>
+        <div class="flex items-center justify-between pt-1.5 border-t border-hairline">
+          <span class="text-gray-300 text-[11px]">Auto-Save to GitHub</span>
+          <input type="checkbox" id="gh-autosave-cb" class="accent-amber w-4 h-4 cursor-pointer" checked />
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-2 pt-2 border-t border-hairline">
+        <button id="gh-modal-close-btn" class="px-3 py-1.5 text-gray-400 text-[11px]">Cancel</button>
+        <button id="gh-save-config" class="btn-press text-[11px] px-3.5 py-1.5 bg-amber text-ink font-semibold rounded-sm hover:bg-amber/90">
+          Save &amp; Sync
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="publish-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-hairline rounded-sm max-w-md w-full p-4 sm:p-5 flex flex-col gap-3.5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-hairline pb-2.5">
+        <h2 class="font-display text-xs sm:text-sm text-amber font-semibold">Publish Script to Community</h2>
+        <button id="publish-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+
+      <div class="flex flex-col gap-2.5 text-[11.5px]">
+        <div>
+          <label class="block text-gray-400 mb-1">Script Title / Description:</label>
+          <input type="text" id="pub-title-input" placeholder="e.g. Awesome Car Spawner Script" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Source File Name (.txt):</label>
+          <div class="flex gap-2">
+            <input type="text" id="pub-source-name" value="script.txt" 
+              class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 flex-1 focus:outline-none focus:border-amber font-mono text-xs" />
+            <input type="file" id="pub-source-file-input" accept=".txt" class="hidden" />
+            <button type="button" id="pub-browse-source" class="btn-press px-3 py-2 bg-panel2 border border-hairline text-amber text-[11.5px] rounded-sm hover:border-amber shrink-0">Browse...</button>
+          </div>
+          <span id="pub-source-status" class="text-[10px] text-gray-500 mt-0.5 block">Using editor code (or browse to replace)</span>
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Compiled Script File (Optional - .cs / .csa / .csi):</label>
+          <div class="flex gap-2">
+            <input type="text" id="pub-compiled-name" placeholder="script.cs" 
+              class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 flex-1 focus:outline-none focus:border-amber font-mono text-xs" />
+            <input type="file" id="pub-compiled-file-input" accept=".cs,.csa,.csi" class="hidden" />
+            <button type="button" id="pub-browse-compiled" class="btn-press px-3 py-2 bg-panel2 border border-hairline text-amber text-[11px] rounded-sm hover:border-amber">Browse...</button>
+          </div>
+          <span id="pub-compiled-status" class="text-[10px] text-gray-500 mt-0.5 block">No compiled file attached</span>
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Mod Screenshot (Optional - PNG/JPG):</label>
+          <div class="flex gap-2">
+            <input type="text" id="pub-screenshot-name" placeholder="screenshot.png" readonly 
+              class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 flex-1 focus:outline-none font-mono text-xs" />
+            <input type="file" id="pub-screenshot-file-input" accept="image/*" class="hidden" />
+            <button type="button" id="pub-browse-screenshot" class="btn-press px-3 py-2 bg-panel2 border border-hairline text-amber text-[11px] rounded-sm hover:border-amber">Browse...</button>
+          </div>
+          <span id="pub-screenshot-status" class="text-[10px] text-gray-500 mt-0.5 block">No screenshot attached</span>
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-2 pt-2 border-t border-hairline">
+        <button id="pub-modal-cancel" class="px-3 py-1.5 text-gray-400 text-[11px]">Cancel</button>
+        <button id="pub-modal-submit" class="btn-press text-[11px] px-3.5 py-1.5 bg-amber text-ink font-semibold rounded-sm hover:bg-amber/90">
+          Publish Now 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="compiler-settings-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-hairline rounded-sm max-w-md w-full max-h-[85vh] flex flex-col shadow-2xl">
+      <div class="border-b border-hairline px-4 py-3 flex items-center justify-between">
+        <h2 class="font-display text-sm text-amber font-semibold">⚙️ settings.ini (Compiler Config)</h2>
+        <button id="compiler-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+      <div class="overflow-y-auto px-4 py-3 text-[11.5px] flex flex-col gap-2.5 text-gray-300">
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Check Local Variables</span>
+          <input type="checkbox" id="comp-checklocal" class="accent-amber w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Strict If Validation</span>
+          <input type="checkbox" id="comp-strictif" class="accent-amber w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Add Extra Info</span>
+          <input type="checkbox" id="comp-extrainfo" class="accent-amber w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Show IMG Warning</span>
+          <input type="checkbox" id="comp-imgwarning" class="accent-amber w-4 h-4" checked />
+        </label>
+      </div>
+      <div class="flex justify-end gap-2 p-3 border-t border-hairline bg-panel2">
+        <button id="compiler-modal-save" class="btn-press text-[11.5px] px-4 py-1.5 bg-amber text-ink font-semibold rounded-sm hover:opacity-90">Save Compiler Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="decompile-settings-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-hairline rounded-sm max-w-md w-full max-h-[85vh] flex flex-col shadow-2xl">
+      <div class="border-b border-hairline px-4 py-3 flex items-center justify-between">
+        <h2 class="font-display text-sm text-teal font-semibold">⚙️ settings.ini (Decompiler Config)</h2>
+        <button id="decompile-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+      <div class="overflow-y-auto px-4 py-3 text-[11.5px] flex flex-col gap-2.5 text-gray-300">
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Overwrite Output File</span>
+          <input type="checkbox" id="opt-overwrite" class="accent-teal w-4 h-4" />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Use If-And-Or Logic</span>
+          <input type="checkbox" id="opt-useifandor" class="accent-teal w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Decompiler Syntax Format</span>
+          <input type="checkbox" id="opt-syntax" class="accent-teal w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Insert Original Mission Names</span>
+          <input type="checkbox" id="opt-originalmissionnames" class="accent-teal w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Clean Labels Format</span>
+          <input type="checkbox" id="opt-labelsformat" class="accent-teal w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Use Custom Labels</span>
+          <input type="checkbox" id="opt-customlabels" class="accent-teal w-4 h-4" checked />
+        </label>
+        <label class="flex items-center justify-between p-1.5 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline">
+          <span>Use Custom Variables</span>
+          <input type="checkbox" id="opt-customvariables" class="accent-teal w-4 h-4" checked />
+        </label>
+      </div>
+      <div class="flex justify-end gap-2 p-3 border-t border-hairline bg-panel2">
+        <button id="decompile-modal-save" class="btn-press text-[11.5px] px-4 py-1.5 bg-teal text-ink font-semibold rounded-sm hover:opacity-90">Save Decompiler Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-4 py-3 flex flex-col gap-3">
+
+    <div class="max-w-6xl mx-auto px-2 sm:px-4 my-2">
+  <div id="offline-notice" class="bg-teal/10 border border-teal/30 rounded-sm p-3.5 text-[12px] text-teal text-center flex flex-col items-center justify-center gap-2.5 shadow-md">
+    <p class="leading-relaxed">
+      <strong>📴 Offline Mode:</strong> GTA SA Android offline compiler &amp; decompiler available — try this for fast offline compile/decompile. No server queue, no internet needed after a one-time download.
+    </p>
+    <label class="flex items-center gap-2 cursor-pointer text-[12px] font-semibold">
+      <input type="checkbox" id="offline-toggle" class="accent-teal w-4 h-4" /> Use Offline Mode
+    </label>
+    <div class="flex items-center gap-2 flex-wrap justify-center">
+      <button id="offline-install-btn" class="bg-teal text-ink px-4 py-1.5 rounded-sm text-[11.5px] font-bold hover:opacity-90 transition-colors">⬇ Download offline engine</button>
+      <a href="https://t.me/TechboyMaster" target="_blank" class="bg-[#0088cc] text-white px-3.5 py-1.5 rounded-sm text-[11px] font-bold hover:opacity-90 transition-colors">Report Bug</a>
+    </div>
+    <p id="offline-status" class="text-[11px] text-gray-400"></p>
+  </div>
+</div>
+
+
+
+<script>
+  const BACKEND_URL = "https://cleo-compiler-testing-gzf6.onrender.com";
+
+  function fetchDebugScreenshot() {
+    const modal = document.getElementById('debugModal');
+    const img = document.getElementById('debugScreenshotImg');
+    
+    img.src = `${BACKEND_URL}/api/take-screenshot?t=${Date.now()}`;
+    modal.style.display = 'flex';
+  }
+
+  function closeDebugModal() {
+    document.getElementById('debugModal').style.display = 'none';
+  }
+  
+    
+</script>
+
+<!-- ✨ AI Assistant Trigger Button -->
+<button id="ai-assistant-btn" class="btn-press text-[11px] px-3 py-1.5 rounded-sm border border-amber/50 bg-amber/10 text-amber hover:bg-amber/20 transition-colors flex items-center gap-1.5">
+  <span>🤖 AI Script Assistant</span>
+</button>
+
+<!-- ✨ AI Assistant Modal with API Key Input & Model Input Box -->
+<div id="aiModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+  <div class="bg-panel border border-amber/40 rounded-sm max-w-xl w-full p-4 sm:p-5 flex flex-col gap-3.5 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between border-b border-hairline pb-2.5">
+      <h2 class="font-display text-xs sm:text-sm text-amber font-semibold">🤖 CLEO AI Script & Opcode Assistant</h2>
+      <button id="aiModalClose" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+    </div>
+    
+    <div class="flex flex-col gap-2.5 text-[11.5px] flex-1">
+      <div>
+        <label class="block text-gray-400 mb-1">What do you want to create? (e.g. Car spawner, Teleport script):</label>
+        <div class="flex gap-2">
+          <input type="text" id="aiPromptInput" placeholder="e.g. Create a car spawner script for Infernus" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 flex-1 focus:outline-none focus:border-amber font-mono text-xs" />
+          <button id="aiGenerateBtn" class="btn-press px-4 py-2 bg-amber text-ink font-semibold rounded-sm hover:opacity-90 shrink-0">Generate 🚀</button>
+        </div>
+      </div>
+
+      <!-- Optional Reference File Upload for AI -->
+      <div>
+        <label class="block text-gray-400 mb-1">Optional Reference File (Script / Config):</label>
+        <div class="flex gap-2">
+          <input type="text" id="aiFileNameInput" placeholder="No file selected" readonly 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-1.5 flex-1 focus:outline-none font-mono text-xs" />
+          <input type="file" id="aiFileInput" accept=".txt,.ini,.ide,.dat" class="hidden" />
+          <button type="button" id="aiBrowseFileBtn" class="btn-press px-3 py-1.5 bg-panel2 border border-hairline text-amber text-[11.5px] rounded-sm hover:border-amber shrink-0">Browse...</button>
+        </div>
+        <span id="aiFileStatus" class="text-[10px] text-gray-500 mt-0.5 block">Upload a file to give custom context to AI (optional)</span>
+      </div>
+
+      <!-- ✨ User Custom API Key Input Field -->
+      <div class="border-t border-hairline pt-2.5">
+        <label class="block text-gray-400 mb-1">Your Custom AI API Key (Gemini / OpenAI):</label>
+        <div class="flex gap-2">
+          <input type="password" id="userApiKeyInput" placeholder="Paste your API key here (saved locally)" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-1.5 flex-1 focus:outline-none focus:border-amber font-mono text-xs" />
+          <button type="button" id="saveApiKeyBtn" class="btn-press px-3 py-1.5 bg-panel2 border border-hairline text-amber text-[11.5px] rounded-sm hover:border-amber shrink-0">Save Key</button>
+        </div>
+        <span id="apiKeyStatus" class="text-[10px] text-gray-500 mt-0.5 block">Stored securely in your browser's localStorage.</span>
+      </div>
+
+      <!-- ✨ Custom AI Model Input Field -->
+      <div>
+        <label class="block text-gray-400 mb-1">AI Model Name (e.g. gemini-3.6-flash):</label>
+        <div class="flex gap-2">
+          <input type="text" id="aiModelInput" placeholder="gemini-3.6-flash" 
+            class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-1.5 flex-1 focus:outline-none focus:border-amber font-mono text-xs" />
+          <button type="button" id="saveModelBtn" class="btn-press px-3 py-1.5 bg-panel2 border border-hairline text-amber text-[11.5px] rounded-sm hover:border-amber shrink-0">Save Model</button>
+        </div>
+        <span id="modelStatus" class="text-[10px] text-gray-500 mt-0.5 block">Saved locally in browser. Type any model supported by your key.</span>
+      </div>
+
+      <!-- AI Response Output Box -->
+      <div class="flex flex-col flex-1">
+        <label class="block text-gray-400 mb-1">Generated Script & Explanation:</label>
+        <div id="aiOutputBox" class="bg-panel2 text-gray-300 border border-hairline rounded-sm p-3 font-mono text-xs overflow-y-auto select-text whitespace-pre-wrap max-h-40">
+          Awaiting your prompt... Ask me to generate any CLEO script!
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-between items-center pt-2 border-t border-hairline">
+      <button id="aiInsertBtn" class="btn-press text-[11px] px-3.5 py-1.5 bg-panel2 border border-hairline text-teal hover:border-teal rounded-sm hidden">📥 Insert into Editor</button>
+      <button id="aiModalCloseBtn" class="btn-press text-[11px] px-4 py-1.5 bg-panel2 border border-hairline text-gray-300 hover:text-gray-100 rounded-sm">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="customize-game-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+  <div class="bg-panel border border-hairline rounded-sm max-w-md w-full p-4 flex flex-col gap-3.5 shadow-2xl">
+    <div class="flex items-center justify-between border-b border-hairline pb-2.5">
+      <h2 class="font-display text-xs sm:text-sm text-amber font-semibold">⚙️ Customize Game Profile</h2>
+      <button id="cust-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+    </div>
+    <div class="flex flex-col gap-2.5 text-[11.5px]">
+      <div>
+        <label class="block text-gray-400 mb-1">Profile Name:</label>
+        <input type="text" id="cust-profile-name" placeholder="e.g. My Custom GTA Mod" class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+      </div>
+      <div>
+        <label class="block text-gray-400 mb-1">Target Sanny Data Folder Name (e.g. sa, sa_mobile):</label>
+        <input type="text" id="cust-folder-name" placeholder="sa" class="bg-panel2 text-gray-200 border border-hairline rounded-sm px-2.5 py-2 w-full focus:outline-none focus:border-amber font-mono text-xs" />
+      </div>
+    </div>
+    <div class="flex justify-end gap-2 pt-2 border-t border-hairline">
+      <button id="cust-modal-cancel" class="px-3 py-1.5 text-gray-400 text-[11px]">Cancel</button>
+      <button id="cust-modal-save" class="btn-press text-[11px] px-3.5 py-1.5 bg-amber text-ink font-semibold rounded-sm hover:opacity-90">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2.5 bg-panel p-2.5 sm:p-3 rounded-sm border border-hairline">
+      <div class="flex flex-wrap items-center gap-2 text-[11.5px] text-gray-400">
+        <div class="flex items-center gap-1.5 flex-1 sm:flex-initial">
+          <span class="hex-addr text-gray-500 text-[10px]">GAME</span>
+          
+<!-- Trigger Button (Header toolbar) -->
+<button id="game-select-trigger" type="button" class="btn-press text-[11.5px] px-3 py-1.5 rounded-sm border border-hairline bg-panel2 text-gray-200 hover:border-amber/50 transition-colors flex items-center gap-2">
+  <span class="text-amber">🎮</span>
+  <span id="current-selected-game-label">GTA SA Mobile (.csa / .csi)</span>
+</button>
+
+<!-- Hidden native select with sa_mobile as default -->
+<select id="gameSelect" class="hidden">
+  <option value="sa">GTA SA v1.0</option>
+  <option value="sa_v2">GTA SA v2.0</option>
+  <option value="sa_ps2">GTA SA PS2 v1.0</option>
+  <option value="sa_mobile" selected>GTA SA Mobile</option>
+  <option value="vc">GTA VC</option>
+  <option value="vc_mobile">GTA VC Mobile</option>
+  <option value="gta3">GTA III</option>
+  <option value="gta3_mobile">GTA III Mobile</option>
+  <option value="lcs">GTA LCS</option>
+  <option value="lcs_mobile">GTA LCS Mobile</option>
+  <option value="vcs_ps2">GTA VCS PS2</option>
+  <option value="vcs_psp">GTA VCS PSP</option>
+</select>
+
+<!-- Modal Pop-up -->
+<div id="game-selection-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+  <div class="bg-panel border border-hairline rounded-sm max-w-md w-full max-h-[85vh] flex flex-col shadow-2xl">
+    
+    <!-- Modal Header -->
+    <div class="border-b border-hairline px-4 py-3 flex items-center justify-between">
+      <h2 class="font-display text-sm text-amber font-semibold">🎮 Select Target Game Profile</h2>
+      <button id="game-modal-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+    </div>
+
+    <!-- Modal Options List -->
+    <div class="overflow-y-auto px-4 py-3 text-[11.5px] flex flex-col gap-3 text-gray-300">
+      
+      <!-- GTA San Andreas Section -->
+      <div class="text-amber font-bold text-xs pt-1">GTA San Andreas</div>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA SA v1.0 (PC - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="sa" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA SA v2.0 (PC - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="sa_v2" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA SA PS2 v1.0 (Console - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="sa_ps2" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA SA Mobile (.csa / .csi)</span>
+        <!-- ✨ Default checked here -->
+        <input type="radio" name="game_profile_radio" value="sa_mobile" class="accent-amber w-4 h-4" checked />
+      </label>
+
+      <!-- GTA Vice City Section -->
+      <div class="text-amber font-bold text-xs pt-2">GTA Vice City</div>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA VC (PC - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="vc" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA VC Mobile (.csa / .csi)</span>
+        <input type="radio" name="game_profile_radio" value="vc_mobile" class="accent-amber w-4 h-4" />
+      </label>
+
+      <!-- GTA III Section -->
+      <div class="text-amber font-bold text-xs pt-2">GTA III</div>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA III (PC - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="gta3" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA III Mobile (.csa / .csi)</span>
+        <input type="radio" name="game_profile_radio" value="gta3_mobile" class="accent-amber w-4 h-4" />
+      </label>
+
+      <!-- Stories Series Section -->
+      <div class="text-amber font-bold text-xs pt-2">GTA Stories Series</div>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA LCS (PSP - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="lcs" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA LCS Mobile (.csa / .csi)</span>
+        <input type="radio" name="game_profile_radio" value="lcs_mobile" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA VCS (PS2 - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="vcs_ps2" class="accent-amber w-4 h-4" />
+      </label>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span>GTA VCS (PSP - .cs)</span>
+        <input type="radio" name="game_profile_radio" value="vcs_psp" class="accent-amber w-4 h-4" />
+      </label>
+
+      <!-- Custom Profile Option -->
+      <div class="text-teal font-bold text-xs pt-2">Custom Configuration</div>
+      <label class="game-radio-item flex items-center justify-between p-2 bg-panel2 rounded-sm cursor-pointer hover:bg-hairline border border-hairline">
+        <span class="text-teal font-semibold">⚙️ Customize Profile...</span>
+        <input type="radio" name="game_profile_radio" value="custom_profile" class="accent-teal w-4 h-4" />
+      </label>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end gap-2 p-3 border-t border-hairline bg-panel2">
+      <button id="game-modal-save" class="btn-press text-[11.5px] px-4 py-1.5 bg-amber text-ink font-semibold rounded-sm hover:opacity-90">Apply Game Profile</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+        </div>
+        <div class="flex items-center gap-1.5 flex-1 sm:flex-initial">
+          <label for="templateSelect" class="hex-addr text-gray-500 text-[10px]">TEMPLATE</label>
+          <select id="templateSelect" class="bg-panel2 text-amber border border-hairline rounded-sm px-2 py-1 text-[11.5px] focus:outline-none focus:border-amber w-full sm:w-auto">
+            <option value="default" selected>Select...</option>
+            <option value="spawner">Car Spawner</option>
+            
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5">
+  <button id="compiler-settings-btn" class="btn-press text-[11.5px] px-2 py-1.5 rounded-sm border border-hairline text-amber hover:bg-amber/10 transition-colors" title="Compiler Config">⚙️ Comp.Config</button>
+  <button id="decompile-settings-btn" class="btn-press text-[11.5px] px-2 py-1.5 rounded-sm border border-hairline text-teal hover:bg-teal/10 transition-colors" title="Decompiler Config">⚙️ Decomp.Config</button>
+  <button id="db-upload-btn" class="btn-press text-[11.5px] px-2.5 py-1.5 rounded-sm border border-hairline text-gray-300 hover:text-amber transition-colors">Custom .db</button>
+  <button id="upload-btn" class="btn-press text-[11.5px] px-2.5 py-1.5 rounded-sm border border-hairline text-gray-300 hover:text-amber transition-colors">Upload</button>
+  <!-- ✨ Naya Save Icon Button -->
+  <button id="save-file-btn" class="btn-press text-[11.5px] px-2.5 py-1.5 rounded-sm border border-hairline text-teal hover:text-teal hover:border-teal/50 transition-colors flex items-center justify-center" title="Save Active File">💾</button>
+  <button id="clear-btn" class="btn-press text-[11.5px] px-2.5 py-1.5 rounded-sm border border-hairline text-gray-400 hover:text-gray-100 transition-colors">Clear</button>
+</div>
+
+    </div>
+
+    <!-- Professional IDE Action Buttons: Decompile (Left) & Compile Play Button (Right) -->
+<div class="flex items-center gap-2">
+  
+  <!-- Decompile Button (Left Side) -->
+  <button id="decompile-btn" class="btn-press flex-1 py-2.5 px-4 rounded-sm bg-teal text-ink font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 shadow-md hover:opacity-90">
+    <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+      <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+    </svg>
+    <span>Decompile</span>
+  </button>
+
+  <!-- Compile & Run Play Button (Right Side - Clean Triangle Shape Style) -->
+  <button id="compile-btn" class="btn-press py-2.5 px-6 rounded-sm bg-amber text-ink font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 shadow-md hover:bg-amber/90 shrink-0">
+    <svg id="compile-spinner" class="hidden animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+    </svg>
+    <!-- Sharp Play Triangle Icon -->
+    <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
+      <path d="M6 4l15 8-15 8z"/>
+    </svg>
+    <span id="compile-btn-text">Compile &amp; Run</span>
+  </button>
+
+</div>
+
+
+    <details class="bg-panel2/60 border border-hairline rounded-sm px-3.5 py-2.5 text-[11.5px]">
+      <summary class="cursor-pointer text-amber font-semibold select-none flex items-center gap-2">⚙️ Advanced Compiler &amp; Decompiler Flags</summary>
+      <div class="pt-3 flex flex-col gap-2.5 border-t border-hairline/60 mt-2 text-gray-400">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="text-amber font-bold">Compile:</span>
+          <label class="flex items-center gap-1.5 cursor-pointer hover:text-amber"><input type="checkbox" id="check-conditions-cb" class="accent-amber rounded-sm" checked><span>--check-conditions</span></label>
+          <label class="flex items-center gap-1.5 cursor-pointer hover:text-amber"><input type="checkbox" id="no-splash-cb" class="accent-amber rounded-sm" checked><span>--no-splash</span></label>
+          <label class="flex items-center gap-1.5 cursor-pointer hover:text-amber"><input type="checkbox" id="case-sensitive-cb" class="accent-amber rounded-sm"><span>--case-sensitive</span></label>
+          <label class="flex items-center gap-1.5 cursor-pointer hover:text-amber"><input type="checkbox" id="frontend-linter-cb" class="accent-amber rounded-sm"><span>Frontend Linter</span></label>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 pt-1 border-t border-hairline/60">
+          <span class="text-teal font-bold">Decompile:</span>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="use-source-cb" class="accent-teal rounded-sm" checked><span>--use-source</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="code-offsets-cb" class="accent-teal rounded-sm"><span>CODE_OFFSETS</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="ignore-unknown-cb" class="accent-teal rounded-sm"><span>IGNORE_UNKNOWN</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="var-counter-cb" class="accent-teal rounded-sm"><span>VAR_COUNTER</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="constant-indexes-cb" class="accent-teal rounded-sm"><span>CONSTANT_INDEXES</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="skip-scm-header-cb" class="accent-teal rounded-sm"><span>SKIP_SCM_HEADER</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="skip-extra-info-cb" class="accent-teal rounded-sm"><span>SKIP_EXTRA_INFO</span></label>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-teal"><input type="checkbox" id="sb3-compat-cb" class="accent-teal rounded-sm" checked><span>SB3_COMPAT</span></label>
+        </div>
+
+        <div class="flex items-center gap-2 w-full pt-1 border-t border-hairline/60">
+          <label for="custom-flags-input" class="hex-addr text-gray-500 whitespace-nowrap">EXTRA FLAGS:</label>
+          <input type="text" id="custom-flags-input" placeholder="e.g. --constant MODE=1" 
+            class="bg-panel text-gray-200 border border-hairline rounded-sm px-2 py-0.5 text-[11px] w-full focus:outline-none focus:border-amber font-mono" />
+        </div>
+      </div>
+    </details>
+
+
+        <div id="editor-wrapper-box" class="rounded-sm border border-hairline overflow-hidden shadow-2xl shadow-black/40 flex flex-col bg-panel">
+            <div class="bg-panel2 border-b border-hairline px-2.5 py-1.5 flex items-center justify-between gap-2 text-[11px] text-gray-400 relative">
+        <div id="file-tabs-container" class="flex items-center gap-1.5 overflow-x-auto flex-1 py-0.5"></div>
+        
+        <!-- ✨ Fullscreen icon aur 3-dot menu ko horizontal align kiya -->
+                <div class="flex items-center gap-1 shrink-0">
+          <button id="fullscreen-dropdown" class="btn-press px-2 py-1 rounded bg-panel hover:bg-hairline text-amber font-bold text-xs flex items-center justify-center" title="Fullscreen">⛶</button>
+          <button id="editor-menu-btn" class="px-2 py-1 rounded bg-panel hover:bg-hairline text-amber font-bold text-xs tracking-widest transition-colors" title="Editor Menu">⋮</button>
+          
+          <div id="editor-dropdown" class="hidden absolute right-0 mt-1.5 w-48 bg-panel border border-hairline rounded-sm shadow-xl z-50 py-1 text-[11.5px]">
+            <button id="new-tab-dropdown" class="w-full text-left px-3 py-2 text-amber hover:bg-panel2 transition-colors flex items-center gap-2"><span>+ New Tab</span></button>
+            <button id="share-tab-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-teal transition-colors flex items-center gap-2"><span>🔗 Copy / Share Code</span></button>
+            <button id="paste-menu-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center gap-2"><span>📋 Paste Code</span></button>
+            <div class="border-t border-hairline my-1"></div>
+            <button id="goto-line-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center gap-2"><span>🎯 Goto Line</span></button>
+            <button id="find-replace-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center gap-2"><span>🔍 Find &amp; Replace</span></button>
+            <div class="border-t border-hairline my-1"></div>
+            <button id="undo-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center gap-2"><span>↩ Undo</span></button>
+            <button id="redo-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center gap-2"><span>↪ Redo</span></button>
+            <div class="border-t border-hairline my-1"></div>
+            <button id="wordwrap-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center justify-between"><span>Word Wrap</span><span id="wrap-status-text" class="text-[10px] text-teal">OFF</span></button>
+            <button id="readonly-dropdown" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-panel2 hover:text-amber transition-colors flex items-center justify-between"><span>Read Only</span><span id="readonly-status-text" class="text-[10px] text-gray-500">OFF</span></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="editor-container"></div>
+    </div>
+
+
+    <div id="console-wrapper" class="rounded-sm border border-hairline bg-panel flex flex-col">
+  <div class="border-b border-hairline px-3 py-1.5 flex items-center justify-between">
+    <span class="text-[11px] text-gray-500 hex-addr">CONSOLE</span>
+    <button id="console-clear" class="text-[11px] text-gray-600 hover:text-gray-300 transition-colors">clear</button>
+  </div>
+  <div id="console-log" class="h-32 overflow-y-auto px-3 py-2 text-[11.5px] leading-relaxed space-y-1">
+    <div class="text-gray-600">&gt; awaiting compile&hellip; <span class="cursor-blink">_</span></div>
+  </div>
+</div>
+
+  </main>
+
+  <div id="opcode-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div id="opcode-modal-box" class="bg-panel border border-hairline rounded-sm max-w-4xl w-full max-h-[85vh] flex flex-col transition-[max-width,max-height,height] duration-150">
+      <div class="border-b border-hairline px-4 py-3 flex items-center justify-between">
+        <h2 class="font-display text-sm text-gray-200">🛠️ Game SDK &amp; Definitions Manager</h2>
+        <button id="opcode-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex items-center gap-1 px-3 pt-2 border-b border-hairline shrink-0">
+        <button id="sdk-tab-files-btn" class="btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-hairline bg-panel2 text-amber font-semibold transition-colors">📂 SDK Files</button>
+        <button id="sdk-tab-ref-btn" class="btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-transparent text-gray-400 hover:text-amber transition-colors">📖 Opcode Reference</button>
+      </div>
+
+      <!-- SDK Files Tab: full custom file loading / editing / caching UI -->
+      <div id="sdk-files-tab" class="flex flex-col sm:flex-row flex-1 min-h-0 overflow-hidden">
+        <div class="sm:w-56 shrink-0 border-b sm:border-b-0 sm:border-r border-hairline flex flex-col max-h-[30vh] sm:max-h-none">
+          <div class="px-3 py-2 text-[10px] text-gray-500 hex-addr border-b border-hairline shrink-0">
+            PROFILE: <span id="sdk-active-game-label" class="text-amber">—</span>
+          </div>
+          <div id="sdk-file-list" class="flex-1 overflow-y-auto text-[11.5px] py-1"></div>
+          <div class="p-2 border-t border-hairline shrink-0">
+            <button id="sdk-add-file-btn" class="btn-press w-full text-[11px] px-2 py-1.5 rounded-sm border border-teal/50 text-teal hover:bg-teal/10 transition-colors">+ Add Custom File</button>
+          </div>
+        </div>
+<div class="px-3 py-2 border-b border-hairline flex items-center justify-between gap-2 text-[11px] shrink-0">
+  <span id="sdk-active-file-label" class="text-gray-300 truncate">No file selected</span>
+  <div class="flex items-center gap-2">
+    <!-- ✨ Yeh raha naya Find Button -->
+    <button type="button" id="sdk-find-btn" class="btn-press px-2 py-0.5 rounded-sm bg-panel border border-hairline text-amber hover:border-amber text-[10px]">🔍 Find</button>
+    <!-- ✨ SDK Editor Fullscreen Toggle Button -->
+    <button type="button" id="sdk-fullscreen-btn" class="btn-press px-2 py-0.5 rounded-sm bg-panel border border-hairline text-amber hover:border-amber text-[10px]" title="Toggle Fullscreen">⛶ Fullscreen</button>
+    <span id="sdk-file-status" class="text-gray-500 shrink-0 text-[10px]"></span>
+  </div>
+</div>
+
+          <!-- Lightweight textarea editor (replaces Monaco for mobile performance) -->
+<textarea id="sdk-file-editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"
+  class="flex-1 w-full bg-panel2 text-gray-200 font-mono text-[12px] leading-relaxed px-3 py-2 resize-none outline-none border-0 min-h-[220px]"
+  placeholder="Select a file to begin editing…"></textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 px-3 py-2 border-t border-hairline shrink-0">
+            <p class="text-[10px] text-gray-500 max-w-[220px]">Saved changes are cached in your browser and used automatically during compilation.</p>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button id="sdk-reset-file-btn" class="btn-press text-[11px] px-2.5 py-1.5 rounded-sm border border-hairline text-gray-400 hover:text-gray-100 transition-colors" disabled>Reset to Default</button>
+              <button id="sdk-delete-file-btn" class="btn-press text-[11px] px-2.5 py-1.5 rounded-sm border border-bad/50 text-bad hover:bg-bad/10 transition-colors hidden">Delete File</button>
+              <button id="sdk-save-file-btn" class="btn-press text-[11px] px-3 py-1.5 rounded-sm bg-amber text-ink font-semibold hover:opacity-90" disabled>💾 Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opcode Reference Tab (existing feature — untouched) -->
+      <div id="sdk-ref-tab" class="hidden overflow-y-auto px-4 py-3 text-[12.5px]">
+        <table class="w-full">
+          <thead>
+            <tr class="text-gray-600 text-left border-b border-hairline">
+              <th class="pb-2 pr-4 hex-addr">OPCODE</th>
+              <th class="pb-2">DESCRIPTION</th>
+            </tr>
+          </thead>
+          <tbody id="opcode-table" class="text-gray-300"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<!-- 🧩 Game Resource IDs — GTA Modding Reference Hub (MTA Wiki) -->
+  <div id="resourceHubModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
+    <div class="bg-panel border border-hairline rounded-sm max-w-4xl w-full max-h-[85vh] flex flex-col">
+      <div class="border-b border-hairline px-4 py-3 flex items-center justify-between shrink-0">
+        <div>
+          <h2 class="font-display text-sm text-gray-200">🧩 Game Resource IDs</h2>
+          <p class="text-[10px] text-gray-500 mt-0.5">Official reference lists — Multi Theft Auto Wiki & Touch Widgets</p>
+        </div>
+        <button id="resource-hub-close" class="text-gray-500 hover:text-gray-200 text-lg leading-none">&times;</button>
+      </div>
+
+      <!-- Category Tab Switcher -->
+      <div class="flex items-center gap-1 px-3 pt-2 border-b border-hairline shrink-0 overflow-x-auto">
+        <button data-res-tab="skins" class="res-tab-btn btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-hairline bg-panel2 text-amber font-semibold transition-colors whitespace-nowrap">🧍 Skins</button>
+        <button data-res-tab="vehicles" class="res-tab-btn btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-transparent text-gray-400 hover:text-amber transition-colors whitespace-nowrap">🚗 Vehicles</button>
+        <button data-res-tab="weapons" class="res-tab-btn btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-transparent text-gray-400 hover:text-amber transition-colors whitespace-nowrap">🔫 Weapons</button>
+        <button data-res-tab="objects" class="res-tab-btn btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-transparent text-gray-400 hover:text-amber transition-colors whitespace-nowrap">📦 Objects</button>
+        <button data-res-tab="widgets" class="res-tab-btn btn-press text-[11.5px] px-3 py-1.5 rounded-t-sm border border-b-0 border-transparent text-gray-400 hover:text-amber transition-colors whitespace-nowrap">📱 Mobile Widgets</button>
+      </div>
+
+      <!-- Category Panels -->
+      <div class="flex-1 min-h-0 overflow-y-auto px-4 py-3" id="resource-hub-body">
+
+        <!-- SKINS -->
+        <div id="res-panel-skins" class="res-panel flex flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm p-3">
+            <div class="min-w-0">
+              <p class="text-[12px] text-gray-200 font-semibold">All Skins Page</p>
+              <p class="text-[10.5px] text-gray-500 truncate">wiki.multitheftauto.com/wiki/All_Skins_Page</p>
+            </div>
+            <a href="https://wiki.multitheftauto.com/wiki/All_Skins_Page" target="_blank" rel="noopener noreferrer"
+              class="btn-press shrink-0 text-[11px] px-3 py-1.5 rounded-sm bg-amber text-ink font-semibold hover:opacity-90 flex items-center gap-1.5">Open Full List ↗</a>
+          </div>
+
+          <p class="text-[10.5px] text-gray-500">Quick reference — common CJ skin IDs. Full list on the official wiki above.</p>
+          <div id="res-quickref-skins" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11.5px]"></div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10.5px] text-gray-500">Embedded viewer (may not load if the wiki blocks embedding — use "Open Full List" above if blank)</span>
+            </div>
+            <iframe src="https://wiki.multitheftauto.com/wiki/All_Skins_Page" loading="lazy" referrerpolicy="no-referrer"
+              class="w-full h-[38vh] rounded-sm border border-hairline bg-panel2"></iframe>
+          </div>
+        </div>
+
+        <!-- VEHICLES -->
+        <div id="res-panel-vehicles" class="res-panel hidden flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm p-3">
+            <div class="min-w-0">
+              <p class="text-[12px] text-gray-200 font-semibold">Vehicle IDs</p>
+              <p class="text-[10.5px] text-gray-500 truncate">wiki.multitheftauto.com/wiki/Vehicle_IDs</p>
+            </div>
+            <a href="https://wiki.multitheftauto.com/wiki/Vehicle_IDs" target="_blank" rel="noopener noreferrer"
+              class="btn-press shrink-0 text-[11px] px-3 py-1.5 rounded-sm bg-amber text-ink font-semibold hover:opacity-90 flex items-center gap-1.5">Open Full List ↗</a>
+          </div>
+
+          <p class="text-[10.5px] text-gray-500">Quick reference — common vehicle IDs. Full list on the official wiki above.</p>
+          <div id="res-quickref-vehicles" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11.5px]"></div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10.5px] text-gray-500">Embedded viewer (may not load if the wiki blocks embedding — use "Open Full List" above if blank)</span>
+            </div>
+            <iframe src="https://wiki.multitheftauto.com/wiki/Vehicle_IDs" loading="lazy" referrerpolicy="no-referrer"
+              class="w-full h-[38vh] rounded-sm border border-hairline bg-panel2"></iframe>
+          </div>
+        </div>
+
+        <!-- WEAPONS -->
+        <div id="res-panel-weapons" class="res-panel hidden flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm p-3">
+            <div class="min-w-0">
+              <p class="text-[12px] text-gray-200 font-semibold">Weapons</p>
+              <p class="text-[10.5px] text-gray-500 truncate">wiki.multitheftauto.com/wiki/Weapons</p>
+            </div>
+            <a href="https://wiki.multitheftauto.com/wiki/Weapons" target="_blank" rel="noopener noreferrer"
+              class="btn-press shrink-0 text-[11px] px-3 py-1.5 rounded-sm bg-amber text-ink font-semibold hover:opacity-90 flex items-center gap-1.5">Open Full List ↗</a>
+          </div>
+
+          <p class="text-[10.5px] text-gray-500">Quick reference — common weapon IDs. Full list on the official wiki above.</p>
+          <div id="res-quickref-weapons" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11.5px]"></div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10.5px] text-gray-500">Embedded viewer (may not load if the wiki blocks embedding — use "Open Full List" above if blank)</span>
+            </div>
+            <iframe src="https://wiki.multitheftauto.com/wiki/Weapons" loading="lazy" referrerpolicy="no-referrer"
+              class="w-full h-[38vh] rounded-sm border border-hairline bg-panel2"></iframe>
+          </div>
+        </div>
+
+        <!-- OBJECTS -->
+        <div id="res-panel-objects" class="res-panel hidden flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm p-3">
+            <div class="min-w-0">
+              <p class="text-[12px] text-gray-200 font-semibold">Object IDs</p>
+              <p class="text-[10.5px] text-gray-500 truncate">wiki.multitheftauto.com/wiki/Object_IDs</p>
+            </div>
+            <a href="https://wiki.multitheftauto.com/wiki/Object_IDs" target="_blank" rel="noopener noreferrer"
+              class="btn-press shrink-0 text-[11px] px-3 py-1.5 rounded-sm bg-amber text-ink font-semibold hover:opacity-90 flex items-center gap-1.5">Open Full List ↗</a>
+          </div>
+
+          <p class="text-[10.5px] text-gray-500">Quick reference — common object IDs. Full list on the official wiki above.</p>
+          <div id="res-quickref-objects" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11.5px]"></div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10.5px] text-gray-500">Embedded viewer (may not load if the wiki blocks embedding — use "Open Full List" above if blank)</span>
+            </div>
+            <iframe src="https://wiki.multitheftauto.com/wiki/Object_IDs" loading="lazy" referrerpolicy="no-referrer"
+              class="w-full h-[38vh] rounded-sm border border-hairline bg-panel2"></iframe>
+          </div>
+        </div>
+
+        <!-- MOBILE WIDGETS -->
+        <div id="res-panel-widgets" class="res-panel hidden flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm p-3">
+            <div class="min-w-0">
+              <p class="text-[12px] text-gray-200 font-semibold">GTA SA Mobile Widget IDs</p>
+              <p class="text-[10.5px] text-gray-500">Complete control button and touch widget mapping list</p>
+            </div>
+          </div>
+
+          <p class="text-[10.5px] text-gray-500">Quick reference — Mobile control widgets with copy buttons:</p>
+          <div id="res-quickref-widgets" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11.5px]"></div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-hairline px-4 py-2.5 flex items-center justify-between shrink-0">
+        <p class="text-[10px] text-gray-500">Source: Multi Theft Auto Wiki & Touch Control Mapping</p>
+        <button onclick="document.getElementById('resourceHubModal').classList.add('hidden')" class="btn-press text-[11px] px-4 py-1.5 bg-panel2 border border-hairline text-gray-300 hover:text-gray-100 rounded-sm">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.49.0/min/vs/loader.min.js"></script>
+<script>
+
+
+
+
+
+  const API_BASE = window.CLEO_API_BASE || 'https://cleo-compiler-backend.onrender.com';
+  
+  const REGISTRY_GIST_ID = "42183afd8d5722544524b1fc6f68ec3a";
+
+  // LocalStorage se save kiye hue tabs load karo, agar na ho ya corrupt ho toh default rakho
+  const DEFAULT_TABS = [
+    { id: 'tab-1', name: 'script.txt', content: `{$CLEO .cs}\n\n0000: NOP\n03A4: name_thread 'MAIN'\n\n:MAIN_START\nwait 0\nif\n  0256:   player $PLAYER_CHAR defined\njf @MAIN_START\n\n0001: wait 0\n0417: start_mission 1\n\n:MAIN_LOOP\nwait 250\njump @MAIN_LOOP\n` }
+  ];
+  
+  
+      const QUICK_REF = {
+      skins: [
+        ['0', 'CJ (Player Default)'],
+        ['1', 'Medic'],
+        ['2', 'Fireman'],
+        ['9', 'SWAT'],
+        ['20', 'Cop (LVPD)'],
+        ['288', 'FBI'],
+      ],
+      vehicles: [
+        ['411', 'Infernus'],
+        ['400', 'Landstalker'],
+        ['420', 'Voodoo'],
+        ['474', 'Hotring Racer'],
+        ['522', 'NRG-500'],
+        ['449', 'Solair'],
+      ],
+      weapons: [
+        ['1', 'Brass Knuckles'],
+        ['4', 'Knife'],
+        ['24', 'Desert Eagle'],
+        ['31', 'M4'],
+        ['34', 'Sniper Rifle'],
+        ['16', 'Grenade'],
+      ],
+      objects: [
+        ['1225', 'Small Gray Box'],
+        ['1330', 'Wooden Crate'],
+        ['3037', 'Traffic Cone'],
+        ['1301', 'Oil Drum'],
+        ['2892', "Pay 'n' Spray Sign"],
+        ['1276', 'Barrier'],
+      ],
+      widgets: [
+        ['0', 'enter/exit car'], ['1', 'punch/weapon fire'], ['2', 'accelerate'], ['3', 'brake'], ['4', 'handbrake'],
+        ['5', 'left arrow'], ['6', 'right arrow'], ['7', 'claxon/horn'], ['8', 'phone'], ['9', 'bowties'],
+        ['10', 'kiss'], ['11', 'fire right'], ['13', 'arrow up'], ['14', 'crane magnet car'], ['15', 'down arrow'],
+        ['16', 'fire left'], ['17', 'fire right'], ['18', 'camera'], ['19', 'target'], ['20', 'target'],
+        ['21', 'fire right'], ['22', 'fire right'], ['23', 'fire right'], ['24', 'rudal left'], ['25', 'remote bomb'],
+        ['26', 'rotate left'], ['27', 'rotate right'], ['28', 'dollar'], ['29', 'pistol replace'], ['30', 'exhaust / nos'],
+        ['31', 'Run'], ['33', 'dive'], ['34', 'swim'], ['37', 'green button'], ['38', 'power button'],
+        ['39', 'reset button'], ['40', 'game analog handle'], ['42', 'arrow right / left screen'], ['43', 'arrow up / left screen'],
+        ['44', 'arrow up / right screen'], ['45', 'arrow down / right screen'], ['46', 'arrow up / right screen'], ['47', 'arrow down / right screen'],
+        ['48', 'arrow left / right down screen'], ['49', 'arrow right / right down screen'], ['50', 'plus / left screen'], ['51', 'minus / leftscreeen'],
+        ['52', 'left arrow small'], ['53', 'right arrow small'], ['54', 'checkmark'], ['55', 'man exit arrow'], ['56', 'rotate left'],
+        ['57', '$ / bottom right'], ['62', 'plus / right bottom screen'], ['63', 'minus / right bottom screen'], ['64', 'select a steering method'],
+        ['65', 'choose a touch layout'], ['66', 'open hand / top left'], ['67', 'magnet'], ['68', 'Spike strip'], ['69', 'checkmark / top left (beating)'],
+        ['70', 'checkmark / top left (beating)'], ['71', 'X sign'], ['72', 'X sign'], ['73', 'checkmark right (beating)'], ['74', 'man exit arrow right'],
+        ['75', 'exit text'], ['76', 'left arrow small'], ['77', 'right arrow small'], ['78', 'start text'], ['79', 'right arrow / bottom right'],
+        ['80', 'unknow black box'], ['81', 'unknow black box'], ['82', 'unknow black box'], ['83', 'unknow black box'], ['87', 'basket net'],
+        ['88', 'basket ball'], ['89', 'X sign / top left'], ['90', 'checkmark / bottom right'], ['91', 'divided card with right left arrow'],
+        ['92', 'X2 Button'], ['93', 'double card with plus symbol'], ['94', 'open hand / bottom right'], ['97', 'up arrow yellow'],
+        ['98', 'down arrow blue'], ['99', 'left arrow red'], ['100', 'right arrow green'], ['102', 'man arrow'], ['103', 'unknow black box'],
+        ['104', 'unknow black box'], ['106', 'grove gang recruit'], ['107', 'grove gang remove member'], ['108', 'grove gang follow instruction'],
+        ['109', 'grove gang stop instruction'], ['110', 'grove gang thumb up'], ['111', 'grove gang middle finger'], ['121', 'plus right arrow'],
+        ['122', 'minus left arrow'], ['123', 'deal button'], ['124', 'hold button'], ['125', 'hold button'], ['126', 'hold button'],
+        ['127', 'hold button'], ['128', 'hold button'], ['134', 'exit button'], ['149', 'exit text center']
+      ]
+    };
+    
+  
+  
+  const triggerBtn = document.getElementById('game-select-trigger');
+const gameModal = document.getElementById('game-selection-modal');
+const modalClose = document.getElementById('game-modal-close');
+const modalSave = document.getElementById('game-modal-save');
+const currentLabel = document.getElementById('current-selected-game-label');
+const hiddenSelect = document.getElementById('gameSelect');
+
+
+  // ✨ Lightweight <textarea>-based SDK file editor (replaces Monaco for smooth,
+  // lag-free typing/scrolling on mobile). sdkEditorEl.value is the single
+  // source of truth read/written by selectSdkFile / save / reset / delete below.
+  const sdkEditorEl = document.getElementById('sdk-file-editor');
+
+  // Jab bhi user SDK file editor mein kuch type kare, cache update ho jaye
+  sdkEditorEl.addEventListener('input', () => {
+    if (sdkActiveFile) {
+      sdkCustomData[sdkActiveFile] = sdkEditorEl.value;
+    }
+  });
+
+  // ✨ SDK Editor ke liye lightweight Find (no Monaco find widget needed)
+    let sdkLastFindTerm = '';
+  document.getElementById('sdk-find-btn').addEventListener('click', () => {
+    const term = prompt('Find in file:', sdkLastFindTerm);
+    if (!term) return;
+    sdkLastFindTerm = term;
+
+    const text = sdkEditorEl.value;
+    const lowerText = text.toLowerCase();
+    const lowerTerm = term.toLowerCase();
+    
+    const searchFrom = sdkEditorEl.selectionEnd || 0;
+    let idx = lowerText.indexOf(lowerTerm, searchFrom);
+    if (idx === -1) idx = lowerText.indexOf(lowerTerm); // wrap around to top
+    if (idx === -1) {
+      alert(`"${term}" not found.`);
+      return;
+    }
+
+    // ✨ Text select karo aur focus do
+    sdkEditorEl.focus();
+    sdkEditorEl.setSelectionRange(idx, idx + term.length);
+
+    // ✨ Exact line par scroll karne ke liye reliable trick
+    const lines = text.substring(0, idx).split('\n');
+    const targetLine = lines.length;
+    const totalLines = text.split('\n').length;
+    
+    // Textarea ki height ke hisaab se scroll percentage set karo
+    const scrollRatio = (targetLine - 1) / totalLines;
+    sdkEditorEl.scrollTop = scrollRatio * sdkEditorEl.scrollHeight;
+  });
+
+
+  // ✨ SDK Editor Fullscreen toggle
+  let sdkIsFullscreen = false;
+  const sdkFullscreenBtn = document.getElementById('sdk-fullscreen-btn');
+  const sdkOpcodeModal = document.getElementById('opcode-modal');
+  const sdkOpcodeModalBox = document.getElementById('opcode-modal-box');
+
+  function setSdkFullscreen(enabled) {
+    sdkIsFullscreen = enabled;
+    if (sdkOpcodeModal) sdkOpcodeModal.classList.toggle('sdk-fullscreen-active', enabled);
+    if (sdkOpcodeModalBox) sdkOpcodeModalBox.classList.toggle('sdk-modal-fullscreen', enabled);
+    if (sdkFullscreenBtn) {
+      sdkFullscreenBtn.innerHTML = enabled ? '🗗 Exit Fullscreen' : '⛶ Fullscreen';
+      sdkFullscreenBtn.title = enabled ? 'Exit Fullscreen' : 'Toggle Fullscreen';
+    }
+    if (enabled && sdkEditorEl) {
+      requestAnimationFrame(() => sdkEditorEl.focus());
+    }
+  }
+
+  if (sdkFullscreenBtn) {
+    sdkFullscreenBtn.addEventListener('click', () => {
+      setSdkFullscreen(!sdkIsFullscreen);
+    });
+  }
+
+  const opcodeCloseBtn = document.getElementById('opcode-close');
+  if (opcodeCloseBtn) {
+    opcodeCloseBtn.addEventListener('click', () => {
+      if (sdkIsFullscreen) setSdkFullscreen(false);
+    });
+  }
+
+
+// Trigger button click to open modal
+triggerBtn.addEventListener('click', () => {
+  gameModal.classList.remove('hidden');
+});
+
+// Close modal
+modalClose.addEventListener('click', () => {
+  gameModal.classList.add('hidden');
+});
+
+// Save / Apply selection
+modalSave.addEventListener('click', () => {
+  const selectedRadio = document.querySelector('input[name="game_profile_radio"]:checked');
+  if (selectedRadio) {
+    const val = selectedRadio.value;
+    
+    if (val === 'custom_profile') {
+      gameModal.classList.add('hidden');
+      const custModal = document.getElementById('customize-game-modal');
+      if (custModal) custModal.classList.remove('hidden');
+      return;
+    }
+
+    const parentLabel = selectedRadio.closest('label');
+    const text = parentLabel.querySelector('span').textContent;
+
+    // Update hidden select value for backend compilation/decompilation
+    hiddenSelect.value = val;
+    currentLabel.textContent = text;
+
+    gameModal.classList.add('hidden');
+    logLine(`Selected game profile: <span class="text-amber">${text}</span>`, 'info');
+  }
+});
+
+// Close modal on background click
+window.addEventListener('click', (e) => {
+  if (e.target === gameModal) {
+    gameModal.classList.add('hidden');
+  }
+});
+
+  
+  
+  
+  const gameSelectEl = document.getElementById('gameSelect');
+const custModal = document.getElementById('customize-game-modal');
+
+gameSelectEl.addEventListener('change', (e) => {
+  if (e.target.value === 'custom_profile') {
+    custModal.classList.remove('hidden');
+  }
+});
+
+document.getElementById('cust-modal-close').addEventListener('click', () => {
+  custModal.classList.add('hidden');
+  gameSelectEl.value = 'sa'; // Fallback
+});
+
+document.getElementById('cust-modal-cancel').addEventListener('click', () => {
+  custModal.classList.add('hidden');
+  gameSelectEl.value = 'sa';
+});
+
+document.getElementById('cust-modal-save').addEventListener('click', () => {
+  const pName = document.getElementById('cust-profile-name').value.trim();
+  const fName = document.getElementById('cust-folder-name').value.trim();
+
+  if (!pName || !fName) {
+    alert('Please fill in both fields!');
+    return;
+  }
+
+  // Dropdown mein naya dynamic custom option insert kar do
+  const customOpt = document.createElement('option');
+  customOpt.value = `custom_${fName}`;
+  customOpt.textContent = pName;
+  customOpt.selected = true;
+  gameSelectEl.appendChild(customOpt);
+
+  custModal.classList.add('hidden');
+  logLine(`Custom game profile '<span class="text-amber">${escapeHtml(pName)}</span>' added successfully.`, 'success');
+});
+
+
+  function isValidTabsArray(arr) {
+    return Array.isArray(arr) && arr.length > 0 && arr.every(t =>
+      t && typeof t.id === 'string' && typeof t.name === 'string' && typeof t.content === 'string'
+    );
+  }
+
+
+
+  function loadInitialTabs() {
+    try {
+      const savedTabsRaw = localStorage.getItem('cleo_open_tabs');
+      if (savedTabsRaw) {
+        const parsed = JSON.parse(savedTabsRaw);
+        if (isValidTabsArray(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.warn('[CLEO] Failed to parse saved tabs from localStorage, falling back to defaults.', e);
+    }
+    return DEFAULT_TABS.map(t => ({ ...t }));
+  }
+
+  let openTabs = loadInitialTabs();
+
+  function loadInitialActiveTabId(tabs) {
+    try {
+      const savedActiveId = localStorage.getItem('cleo_active_tab_id');
+      if (savedActiveId && tabs.some(t => t.id === savedActiveId)) return savedActiveId;
+    } catch (e) {
+      console.warn('[CLEO] Failed to read saved active tab id from localStorage.', e);
+    }
+    return tabs[0].id;
+  }
+
+  let activeTabId = loadInitialActiveTabId(openTabs);
+
+  let editor;
+
+//auto save
+function saveTabsToLocalStorage() {
+  if (editor && activeTabId) {
+    const currentTab = openTabs.find(t => t.id === activeTabId);
+    if (currentTab) currentTab.content = editor.getValue();
+  }
+  try {
+    localStorage.setItem('cleo_open_tabs', JSON.stringify(openTabs));
+    localStorage.setItem('cleo_active_tab_id', activeTabId);
+  } catch (e) {
+    console.warn('[CLEO] Failed to save tab state to localStorage.', e);
+  }
+}
+
+// Force-save open tabs + active tab instantly right before a refresh/reload/close,
+// so unsaved edits in the currently active tab are never lost.
+window.addEventListener('beforeunload', () => {
+  saveTabsToLocalStorage();
+});
+
+
+
+  // Error Modal Control Functions
+    // ✨ Updated Modal Function with Dynamic Title & Line Number +1 Offset Fix
+      // ✨ Updated Modal Function to Strip Path and Show Only filename:line & error
+    function showErrorModal(errorText, cmdText, isDecompile = false) {
+    const titleEl = document.getElementById('errorModalTitle');
+    const errTypeTitle = isDecompile ? 'Decompilation Error' : 'Compilation Error';
+    if (titleEl) {
+      titleEl.textContent = `❌ ${errTypeTitle}`;
+    }
+
+    let formattedError = errorText || 'Unknown error occurred.';
+
+    // ✨ Clean absolute path and apply +1 line offset
+    formattedError = formattedError.replace(/[A-Z]:\\[^:\n]+\\([^\\]+\.(txt|cs|csa|csi)):(\d+)/gi, (match, filename, ext, lineNum) => {
+      return `${filename}:${parseInt(lineNum, 10) + 1}`;
+    });
+    formattedError = formattedError.replace(/(?:[a-zA-Z]:|\\|\/).*?[\\/]([^\\]+\.(txt|cs|csa|csi)):(\d+)/gi, (match, filename, ext, lineNum) => {
+      return `${filename}:${parseInt(lineNum, 10) + 1}`;
+    });
+
+    // ✨ Pop-up modal mein error set karna
+    document.getElementById('errorModalMsg').textContent = formattedError;
+    document.getElementById('errorModal').classList.remove('hidden');
+
+    // ✨ Wahi same error ab console mein bhi log ho jayega!
+    logLine(`[${errTypeTitle}] ${escapeHtml(formattedError)}`, 'error');
+  }
+
+  function closeErrorModal() {
+    document.getElementById('errorModal').classList.add('hidden');
+  }
+
+
+
+  
+
+  // ==========================================
+  // LOCALSTORAGE SETTINGS PERSISTENCE
+  // ==========================================
+  function saveCompilerSettings() {
+    const settings = {
+      checkLocal: document.getElementById('comp-checklocal').checked,
+      strictIf: document.getElementById('comp-strictif').checked,
+      extraInfo: document.getElementById('comp-extrainfo').checked,
+      imgWarning: document.getElementById('comp-imgwarning').checked
+    };
+    localStorage.setItem('compiler_settings', JSON.stringify(settings));
+  }
+
+  function loadCompilerSettings() {
+    const saved = localStorage.getItem('compiler_settings');
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        if (s.checkLocal !== undefined) document.getElementById('comp-checklocal').checked = s.checkLocal;
+        if (s.strictIf !== undefined) document.getElementById('comp-strictif').checked = s.strictIf;
+        if (s.extraInfo !== undefined) document.getElementById('comp-extrainfo').checked = s.extraInfo;
+        if (s.imgWarning !== undefined) document.getElementById('comp-imgwarning').checked = s.imgWarning;
+      } catch (e) {}
+    }
+  }
+
+  function saveDecompilerSettings() {
+    const settings = {
+      overwrite: document.getElementById('opt-overwrite').checked,
+      useIfAndOr: document.getElementById('opt-useifandor').checked,
+      syntax: document.getElementById('opt-syntax').checked,
+      origNames: document.getElementById('opt-originalmissionnames').checked,
+      labelsFormat: document.getElementById('opt-labelsformat').checked,
+      customLabels: document.getElementById('opt-customlabels').checked,
+      customVars: document.getElementById('opt-customvariables').checked
+    };
+    localStorage.setItem('decompiler_settings', JSON.stringify(settings));
+  }
+
+  function loadDecompilerSettings() {
+    const saved = localStorage.getItem('decompiler_settings');
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        if (s.overwrite !== undefined) document.getElementById('opt-overwrite').checked = s.overwrite;
+        if (s.useIfAndOr !== undefined) document.getElementById('opt-useifandor').checked = s.useIfAndOr;
+        if (s.syntax !== undefined) document.getElementById('opt-syntax').checked = s.syntax;
+        if (s.origNames !== undefined) document.getElementById('opt-originalmissionnames').checked = s.origNames;
+        if (s.labelsFormat !== undefined) document.getElementById('opt-labelsformat').checked = s.labelsFormat;
+        if (s.customLabels !== undefined) document.getElementById('opt-customlabels').checked = s.customLabels;
+        if (s.customVars !== undefined) document.getElementById('opt-customvariables').checked = s.customVars;
+      } catch (e) {}
+    }
+  }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+    loadCompilerSettings();
+    loadDecompilerSettings();
+
+    // ✨ Saved AI Model ko load karne ka code yahan add kar diya
+    const savedModel = localStorage.getItem('user_custom_ai_model');
+    if (savedModel) {
+      const modelInput = document.getElementById('aiModelInput');
+      if (modelInput) modelInput.value = savedModel;
+      const fixModelInput = document.getElementById('aiFixModelInput');
+      if (fixModelInput) fixModelInput.value = savedModel;
+    }
+    
+    
+
+    const params = new URLSearchParams(window.location.search);
+    const gistId = params.get('load_gist');
+    const filename = params.get('file');
+    if (gistId) {
+      try {
+        const res = await fetch(`https://api.github.com/gists/${gistId}`);
+        if (res.ok) {
+          const data = await res.json();
+          const file = data.files[filename] || Object.values(data.files)[0];
+          if (file && editor) {
+            editor.setValue(file.content);
+            const activeTab = openTabs.find(t => t.id === activeTabId) || openTabs[0];
+            activeTab.name = filename || 'community_script.txt';
+            activeTab.content = file.content;
+            renderTabs();
+            saveTabsToLocalStorage();
+            logLine('Community script loaded successfully into editor!', 'success');
+          }
+        }
+      } catch(e) { logLine('Failed to load community script.', 'error'); }
+    }
+  });
+
+
+  // Modal UI Logic
+  const compModal = document.getElementById('compiler-settings-modal');
+  document.getElementById('compiler-settings-btn').addEventListener('click', () => compModal.classList.remove('hidden'));
+  document.getElementById('compiler-modal-close').addEventListener('click', () => compModal.classList.add('hidden'));
+  document.getElementById('compiler-modal-save').addEventListener('click', () => {
+    saveCompilerSettings();
+    compModal.classList.add('hidden');
+    logLine('Compiler settings saved & updated.', 'success');
+  });
+
+  const decModal = document.getElementById('decompile-settings-modal');
+  document.getElementById('decompile-settings-btn').addEventListener('click', () => decModal.classList.remove('hidden'));
+  document.getElementById('decompile-modal-close').addEventListener('click', () => decModal.classList.add('hidden'));
+  document.getElementById('decompile-modal-save').addEventListener('click', () => {
+    saveDecompilerSettings();
+    decModal.classList.add('hidden');
+    logLine('Decompiler settings saved & updated.', 'success');
+  });
+
+  const tabsContainer = document.getElementById('file-tabs-container');
+
+  function renderTabs() {
+    tabsContainer.innerHTML = '';
+    openTabs.forEach(tab => {
+      const tabEl = document.createElement('div');
+      tabEl.className = `flex items-center gap-1.5 px-2.5 py-1 rounded cursor-pointer text-xs border transition-all shrink-0 ${tab.id === activeTabId ? 'bg-panel border-amber text-amber font-semibold shadow' : 'bg-panel2 border-hairline text-gray-400 hover:text-gray-200'}`;
+      tabEl.innerHTML = `
+        <span onclick="switchTab('${tab.id}')" class="truncate max-w-[110px]">${escapeHtml(tab.name)}</span>
+        ${openTabs.length > 1 ? `<span onclick="closeTab(event, '${tab.id}')" class="hover:text-bad text-gray-500 font-bold ml-1">&times;</span>` : ''}
+      `;
+      tabsContainer.appendChild(tabEl);
+    });
+  }
+
+  function switchTab(id) {
+    // Save the outgoing tab's latest editor content before switching away from it
+    if (editor && activeTabId) {
+      const currentTab = openTabs.find(t => t.id === activeTabId);
+      if (currentTab) currentTab.content = editor.getValue();
+    }
+
+    activeTabId = id;
+    const targetTab = openTabs.find(t => t.id === id);
+    if (targetTab && editor) {
+      editor.setValue(targetTab.content);
+      clearEditorErrorMarkers();
+      logLine(`Switched to tab: <span class="text-amber">${escapeHtml(targetTab.name)}</span>`, 'info');
+    }
+    renderTabs();
+    // Persist AFTER activeTabId has actually changed, so a refresh right after
+    // switching tabs restores the correct active tab instead of the old one.
+    saveTabsToLocalStorage();
+  }
+
+  function closeTab(e, id) {
+    e.stopPropagation();
+    if (openTabs.length <= 1) return;
+    const idx = openTabs.findIndex(t => t.id === id);
+    openTabs.splice(idx, 1);
+    if (activeTabId === id) {
+      // switchTab() will persist the new openTabs + new activeTabId together
+      switchTab(openTabs[openTabs.length - 1].id);
+    } else {
+      // openTabs changed (a tab was removed) even though the active tab didn't,
+      // so this still needs to be persisted immediately.
+      renderTabs();
+      saveTabsToLocalStorage();
+    }
+  }
+
+  const editorMenuBtn = document.getElementById('editor-menu-btn');
+  const editorDropdown = document.getElementById('editor-dropdown');
+  const editorBox = document.getElementById('editor-wrapper-box');
+  const fullscreenText = document.getElementById('fullscreen-text');
+
+  editorMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    editorDropdown.classList.toggle('hidden');
+  });
+
+  window.addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+  });
+  
+  
+  
+  
+  
+
+    document.getElementById('new-tab-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    const tabNum = openTabs.length + 1;
+    const newId = 'tab-' + Date.now();
+    const newName = `script_${tabNum}.txt`;
+    if (editor) {
+      const currentTab = openTabs.find(t => t.id === activeTabId);
+      if (currentTab) currentTab.content = editor.getValue();
+    }
+    openTabs.push({ id: newId, name: newName, content: `{$CLEO .cs}\n\n0000: NOP\n` });
+    switchTab(newId);
+  });
+
+  document.getElementById('undo-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (editor) editor.trigger('keyboard', 'undo', null);
+  });
+
+  document.getElementById('redo-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (editor) editor.trigger('keyboard', 'redo', null);
+  });
+
+        // ⛶ Fullscreen Toggle with URL Bar Hidden
+  document.getElementById('fullscreen-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {});
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+
+    editorBox.classList.toggle('fullscreen-editor');
+    if (editorBox.classList.contains('fullscreen-editor')) {
+      fullscreenText.textContent = '🗗 Exit Fullscreen';
+      editorMenuBtn.classList.add('text-bad');
+    } else {
+      fullscreenText.textContent = '⛶ Fullscreen';
+      editorMenuBtn.classList.remove('text-bad');
+    }
+    if (editor) editor.layout();
+  });
+
+
+
+  // 🔗 Share Code (Copy code to clipboard)
+    // 🔗 Share Code (Mobile Friendly Fallback Fix)
+  document.getElementById('share-tab-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    const code = editor.getValue();
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(() => {
+        logLine('Script code copied to clipboard successfully!', 'success');
+        alert('Code copied to clipboard!');
+      }).catch(err => {
+        fallbackCopyTextToClipboard(code);
+      });
+    } else {
+      fallbackCopyTextToClipboard(code);
+    }
+  });
+
+  function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        logLine('Script code copied to clipboard successfully!', 'success');
+        alert('Code copied to clipboard!');
+      } else {
+        alert('Failed to copy code.');
+      }
+    } catch (err) {
+      alert('Unable to copy, please select and copy manually.');
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+
+  // 🎯 Goto Line
+  document.getElementById('goto-line-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    const line = prompt('Enter line number to jump to:');
+    if (line) {
+      const lineNum = parseInt(line, 10);
+      editor.revealLineInCenter(lineNum);
+      editor.setPosition({ lineNumber: lineNum, column: 1 });
+      editor.focus();
+    }
+  });
+
+  // 🔍 Find & Replace (Monaco built-in find widget)
+  document.getElementById('find-replace-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    editor.trigger('', 'actions.find', null);
+  });
+
+  // 📄 Word Wrap Toggle
+  document.getElementById('wordwrap-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    const currentWrap = editor.getOption(monaco.editor.EditorOption.wordWrap);
+    const newWrap = currentWrap === 'on' ? 'off' : 'on';
+    editor.updateOptions({ wordWrap: newWrap });
+    document.getElementById('wrap-status-text').textContent = newWrap === 'on' ? 'ON' : 'OFF';
+    document.getElementById('wrap-status-text').className = newWrap === 'on' ? 'text-[10px] text-good font-bold' : 'text-[10px] text-teal';
+    logLine(`Editor word wrap: ${newWrap.toUpperCase()}`, 'info');
+  });
+
+  // 🔒 Read Only Toggle
+  document.getElementById('readonly-dropdown').addEventListener('click', () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    const isReadOnly = editor.getOption(monaco.editor.EditorOption.readOnly);
+    editor.updateOptions({ readOnly: !isReadOnly });
+    document.getElementById('readonly-status-text').textContent = !isReadOnly ? 'ON' : 'OFF';
+    document.getElementById('readonly-status-text').className = !isReadOnly ? 'text-[10px] text-bad font-bold' : 'text-[10px] text-gray-500';
+    logLine(`Editor read-only mode: ${!isReadOnly ? 'ENABLED' : 'DISABLED'}`, 'warn');
+ 
+   // 📋 Paste Code from Clipboard (Mobile Friendly)
+  document.getElementById('paste-menu-dropdown').addEventListener('click', async () => {
+    editorDropdown.classList.add('hidden');
+    if (!editor) return;
+    try {
+      const text = await navigator.clipboard.readText();
+      const selection = editor.getSelection();
+      editor.executeEdits('menu-paste', [{ range: selection, text: text, forceMoveMarkers: true }]);
+      logLine('Text pasted from clipboard successfully!', 'success');
+    } catch (err) {
+      alert('Clipboard permission denied or not supported by browser. Use long-press inside editor or keyboard shortcut.');
+    }
+  });
+
+                  
+
+
+
+  
+ 
+});
+
+    
+    
+
+
+  // --- PUBLISH SCRIPT MODAL & EVENT LISTENERS ---
+  const publishModal = document.getElementById('publish-modal');
+  const pubTitleInput = document.getElementById('pub-title-input');
+  
+  const pubSourceName = document.getElementById('pub-source-name');
+  const pubSourceFileInput = document.getElementById('pub-source-file-input');
+  const pubBrowseSource = document.getElementById('pub-browse-source');
+  const pubSourceStatus = document.getElementById('pub-source-status');
+
+  const pubCompiledName = document.getElementById('pub-compiled-name');
+  const pubCompiledFileInput = document.getElementById('pub-compiled-file-input');
+  const pubBrowseCompiled = document.getElementById('pub-browse-compiled');
+  const pubCompiledStatus = document.getElementById('pub-compiled-status');
+
+  const pubScreenshotName = document.getElementById('pub-screenshot-name');
+  const pubScreenshotFileInput = document.getElementById('pub-screenshot-file-input');
+  const pubBrowseScreenshot = document.getElementById('pub-browse-screenshot');
+  const pubScreenshotStatus = document.getElementById('pub-screenshot-status');
+
+  const pubModalSubmit = document.getElementById('pub-modal-submit');
+  const pubModalCancel = document.getElementById('pub-modal-cancel');
+  const publishModalClose = document.getElementById('publish-modal-close');
+
+  let attachedSourceCustomContent = null;
+  let attachedCompiledContent = null;
+  let attachedCompiledBase64 = false;
+
+  let attachedScreenshotContent = null;
+  let attachedScreenshotBase64 = false;
+
+  pubBrowseSource.addEventListener('click', () => pubSourceFileInput.click());
+  pubSourceFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    pubSourceName.value = file.name;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      attachedSourceCustomContent = event.target.result;
+      pubSourceStatus.textContent = `Attached file: ${file.name} (${Math.round(file.size/1024)} KB)`;
+      pubSourceStatus.className = 'text-[10px] text-good mt-0.5 block';
+    };
+    reader.readAsText(file);
+  });
+
+  pubBrowseCompiled.addEventListener('click', () => pubCompiledFileInput.click());
+  pubCompiledFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    pubCompiledName.value = file.name;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      attachedCompiledContent = event.target.result.split(',')[1] || event.target.result;
+      attachedCompiledBase64 = true;
+      pubCompiledStatus.textContent = `Attached: ${file.name} (${Math.round(file.size/1024)} KB)`;
+      pubCompiledStatus.className = 'text-[10px] text-good mt-0.5 block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  pubBrowseScreenshot.addEventListener('click', () => pubScreenshotFileInput.click());
+  pubScreenshotFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    pubScreenshotName.value = file.name;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      attachedScreenshotContent = event.target.result.split(',')[1] || event.target.result;
+      attachedScreenshotBase64 = true;
+      pubScreenshotStatus.textContent = `Attached: ${file.name} (${Math.round(file.size/1024)} KB)`;
+      pubScreenshotStatus.className = 'text-[10px] text-good mt-0.5 block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('header-publish-btn').addEventListener('click', openPublishModal);
+  document.getElementById('gh-publish-gist').addEventListener('click', () => {
+    ghDropdown.classList.add('hidden');
+    openPublishModal();
+  });
+
+  function openPublishModal() {
+    const token = localStorage.getItem('gh_token');
+    if (!token) {
+      ghModal.classList.remove('hidden');
+      alert('Please configure your GitHub Token first! Ensure it has "gist" scope permissions.');
+      return;
+    }
+    const activeTab = openTabs.find(t => t.id === activeTabId);
+    pubSourceName.value = activeTab ? activeTab.name : 'script.txt';
+    pubTitleInput.value = '';
+    
+    attachedSourceCustomContent = null;
+    pubSourceStatus.textContent = 'Using editor code (or browse to replace)';
+    pubSourceStatus.className = 'text-[10px] text-gray-500 mt-0.5 block';
+
+    attachedCompiledContent = null;
+    attachedCompiledBase64 = false;
+    pubCompiledName.value = '';
+    pubCompiledStatus.textContent = 'No compiled file attached';
+    pubCompiledStatus.className = 'text-[10px] text-gray-500 mt-0.5 block';
+
+    attachedScreenshotContent = null;
+    attachedScreenshotBase64 = false;
+    pubScreenshotName.value = '';
+    pubScreenshotStatus.textContent = 'No screenshot attached';
+    pubScreenshotStatus.className = 'text-[10px] text-gray-500 mt-0.5 block';
+    
+    publishModal.classList.remove('hidden');
+  }
+
+  publishModalClose.addEventListener('click', () => publishModal.classList.add('hidden'));
+  pubModalCancel.addEventListener('click', () => publishModal.classList.add('hidden'));
+
+  async function registerUserToHub(username) {
+    if (!username) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/register-user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      });
+      await res.json();
+    } catch(e) {
+      console.error("Registry background update failed:", e);
+    }
+  }
+
+  pubModalSubmit.addEventListener('click', async () => {
+    const token = localStorage.getItem('gh_token');
+    const title = pubTitleInput.value.trim();
+    const sourceFilename = pubSourceName.value.trim() || 'script.txt';
+    const compiledFilename = pubCompiledName.value.trim();
+    
+    const screenshotFile = pubScreenshotFileInput.files[0];
+
+    if (!title) {
+      alert('Please enter a title or description!');
+      return;
+    }
+    
+    const sourceCode = attachedSourceCustomContent !== null ? attachedSourceCustomContent : (editor ? editor.getValue() : '');
+    if (!sourceCode.trim()) {
+      alert('Source code is empty!');
+      return;
+    }
+
+    publishModal.classList.add('hidden');
+    logLine('[Community] Publishing script and uploading screenshot...', 'info');
+
+    try {
+      const userRes = await fetch('https://api.github.com/user', {
+        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (!userRes.ok) {
+        alert('Invalid GitHub Token!');
+        return;
+      }
+      const userData = await userRes.json();
+      const username = userData.login;
+      localStorage.setItem('gh_username', username);
+
+      await registerUserToHub(username);
+
+      let screenshotUrl = '';
+      if (screenshotFile) {
+        const formData = new FormData();
+        formData.append('image', screenshotFile);
+        
+        const imgRes = await fetch('https://api.imgbb.com/1/upload?key=a46429a08b55c6269177ae286e8f51c6', {
+          method: 'POST',
+          body: formData
+        });
+        const imgData = await imgRes.json();
+        if (imgData.success) {
+          screenshotUrl = imgData.data.url;
+        }
+      }
+
+      const filesPayload = {
+        [sourceFilename]: { content: sourceCode },
+        'comments.json': { content: '[]' }
+      };
+
+      if (compiledFilename && attachedCompiledContent) {
+        filesPayload[compiledFilename] = { 
+          content: attachedCompiledContent,
+          encoding: attachedCompiledBase64 ? 'base64' : 'utf-8'
+        };
+      }
+
+      const finalDescription = title;
+      const res = await fetch('https://api.github.com/gists', {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          description: finalDescription,
+          public: true,
+          files: filesPayload
+        })
+      });
+
+      if (res.ok) {
+        const gistData = await res.json();
+        
+        try {
+          await fetch(`${API_BASE}/api/publish-post`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              gistId: gistData.id,
+              description: finalDescription,
+              owner: username,
+              avatar: userData.avatar_url,
+              createdAt: gistData.created_at,
+              files: Object.keys(gistData.files),
+              screenshots: screenshotUrl ? { [pubScreenshotName.value]: screenshotUrl } : {}
+            })
+          });
+        } catch(e) { console.error("Failed to sync post to central index", e); }
+
+        logLine(`Successfully published to Community Feed! ID: <span class="text-good">${gistData.id}</span>`, 'success');
+        alert('Script successfully published with image link preview!');
+      } else {
+        const errJson = await res.json();
+        logLine(`[Gist Error] ${errJson.message}`, 'error');
+        alert(`Failed to publish: ${errJson.message}`);
+      }
+    } catch (err) {
+      logLine(`[Network Error] ${err.message}`, 'error');
+      alert(`Network error: ${err.message}`);
+    }
+  });
+
+  const ghConfigBtn = document.getElementById('gh-config-btn');
+  const ghDropdown = document.getElementById('gh-dropdown');
+  const ghModal = document.getElementById('gh-modal');
+  const ghModalClose = document.getElementById('gh-modal-close');
+  const ghModalCloseBtn = document.getElementById('gh-modal-close-btn');
+  const ghSaveConfig = document.getElementById('gh-save-config');
+  const ghTokenInput = document.getElementById('gh-token-input');
+  const ghRepoInput = document.getElementById('gh-repo-input');
+  const ghBranchInput = document.getElementById('gh-branch-input');
+  const ghRepoLabel = document.getElementById('gh-repo-label');
+  const ghDisconnectBtn = document.getElementById('gh-disconnect');
+  const ghAutosaveCb = document.getElementById('gh-autosave-cb');
+
+  function loadGhSettings() {
+    const token = localStorage.getItem('gh_token') || '';
+    const repo = localStorage.getItem('gh_repo') || '';
+    const branch = localStorage.getItem('gh_branch') || 'main';
+    const autosave = localStorage.getItem('gh_autosave') !== 'false';
+    ghTokenInput.value = token;
+    ghRepoInput.value = repo;
+    ghBranchInput.value = branch;
+    ghAutosaveCb.checked = autosave;
+    if (repo) {
+      ghRepoLabel.textContent = repo;
+    } else {
+      ghRepoLabel.textContent = 'Not set';
+    }
+  }
+  loadGhSettings();
+
+  ghConfigBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const repo = localStorage.getItem('gh_repo');
+    if (!repo) {
+      ghModal.classList.remove('hidden');
+    } else {
+      ghDropdown.classList.toggle('hidden');
+    }
+  });
+
+  document.getElementById('gh-settings-open').addEventListener('click', () => {
+    ghDropdown.classList.add('hidden');
+    ghModal.classList.remove('hidden');
+  });
+
+  ghDisconnectBtn.addEventListener('click', () => {
+    ghDropdown.classList.add('hidden');
+    if (confirm('Are you sure you want to disconnect your GitHub repository and clear your saved token?')) {
+      localStorage.removeItem('gh_token');
+      localStorage.removeItem('gh_repo');
+      localStorage.removeItem('gh_branch');
+      localStorage.removeItem('gh_autosave');
+      localStorage.removeItem('gh_username');
+      localStorage.removeItem('gh_avatar');
+
+      ghTokenInput.value = '';
+      ghRepoInput.value = '';
+      ghBranchInput.value = 'main';
+      ghAutosaveCb.checked = true;
+      ghRepoLabel.textContent = 'Not set';
+      logLine('GitHub repository settings removed and disconnected.', 'warn');
+    }
+  });
+
+  ghModalClose.addEventListener('click', () => ghModal.classList.add('hidden'));
+  ghModalCloseBtn.addEventListener('click', () => ghModal.classList.add('hidden'));
+  window.addEventListener('click', (e) => {
+    if (e.target === ghModal) ghModal.classList.add('hidden');
+    if (e.target === publishModal) publishModal.classList.add('hidden');
+    const errorModalEl = document.getElementById('errorModal');
+    if (e.target === errorModalEl) errorModalEl.classList.add('hidden');
+    ghDropdown.classList.add('hidden');
+  });
+
+  ghSaveConfig.addEventListener('click', async () => {
+    let token = ghTokenInput.value.trim();
+    let repo = ghRepoInput.value.trim();
+    const branch = ghBranchInput.value.trim() || 'main';
+    const autosave = ghAutosaveCb.checked;
+
+    if (!token || !repo) {
+      alert('Please fill both Token and Repository name!');
+      return;
+    }
+
+    if (!repo.includes('/')) {
+      try {
+        logLine('[GitHub] Validating token and fetching username...', 'info');
+        const userRes = await fetch('https://api.github.com/user', {
+          headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          repo = `${userData.login}/${repo}`;
+          ghRepoInput.value = repo;
+        } else {
+          logLine('[GitHub Error] Invalid Personal Access Token or missing "repo" scope.', 'error');
+          alert('Invalid GitHub Token! Ensure your token has "repo" scope permissions.');
+          return;
+        }
+      } catch (err) {
+        logLine(`[GitHub] Network error validating token: ${err.message}`, 'error');
+        alert('Network error while validating token.');
+        return;
+      }
+    }
+
+    ghSaveConfig.disabled = true;
+    ghSaveConfig.textContent = 'Connecting...';
+    logLine(`[GitHub] Connecting to repository <span class="text-amber">${repo}</span>...`, 'info');
+
+    const repoReady = await ensureRepositoryExists(token, repo);
+
+    ghSaveConfig.disabled = false;
+    ghSaveConfig.textContent = 'Save & Sync';
+
+    if (repoReady) {
+      localStorage.setItem('gh_token', token);
+      localStorage.setItem('gh_repo', repo);
+      localStorage.setItem('gh_branch', branch);
+      localStorage.setItem('gh_autosave', autosave);
+      ghRepoLabel.textContent = repo;
+      ghModal.classList.add('hidden');
+      logLine(`GitHub sync configured successfully for <span class="text-amber">${repo}</span>!`, 'success');
+    }
+  });
+
+  async function ensureRepositoryExists(token, repoFullName) {
+    const [owner, repoName] = repoFullName.split('/');
+    if (!owner || !repoName) {
+      logLine(`[GitHub Error] Invalid format '${repoFullName}'. Expected owner/repo`, 'error');
+      alert('Invalid repository format. Use owner/repo (e.g. Testermt/CleoSave)');
+      return false;
+    }
+
+    try {
+      const checkRes = await fetch(`https://api.github.com/repos/${repoFullName}`, {
+        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+
+      if (checkRes.ok) {
+        logLine(`[GitHub] Connected to existing repository <span class="text-good">${repoFullName}</span>.`, 'success');
+        return true;
+      }
+
+      if (checkRes.status === 404) {
+        logLine(`[GitHub] Repository <span class="text-amber">${repoFullName}</span> not found. Creating private repo...`, 'warn');
+        
+        const createRes = await fetch(`https://api.github.com/user/repos`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            name: repoName,
+            private: true,
+            description: 'Created automatically via GTA SA Online CLEO Compiler'
+          })
+        });
+
+        if (createRes.ok) {
+          logLine(`Successfully created private repository <span class="text-good">${repoFullName}</span>!`, 'success');
+          return true;
+        } else {
+          const errJson = await createRes.json();
+          logLine(`[GitHub Error] Failed to create repo: ${errJson.message || 'Unknown error'}`, 'error');
+          alert(`Failed to create repository: ${errJson.message || 'Unknown error'}`);
+          return false;
+        }
+      } else if (checkRes.status === 401 || checkRes.status === 403) {
+        logLine(`[GitHub Error] Authorization failed. Check if your token has 'repo' scope permissions.`, 'error');
+        alert('Authorization failed! Please make sure your token has "repo" scope permissions enabled.');
+        return false;
+      } else {
+        const errJson = await checkRes.json();
+        logLine(`[GitHub Error] Status ${checkRes.status}: ${errJson.message || 'API error'}`, 'error');
+        alert(`GitHub API Error: ${errJson.message || 'Unknown error'}`);
+        return false;
+      }
+    } catch (err) {
+      logLine(`[GitHub Network Error] ${err.message}`, 'error');
+      alert(`Network error: ${err.message}`);
+      return false;
+    }
+  }
+
+  async function commitToGitHub(content, filename, isBase64 = false, forcePrompt = false) {
+    const token = localStorage.getItem('gh_token');
+    const repo = localStorage.getItem('gh_repo');
+    const branch = localStorage.getItem('gh_branch') || 'main';
+
+    if (!token || !repo) {
+      if (forcePrompt) {
+        logLine('GitHub token or repository not configured. Click GitHub Sync to set up.', 'warn');
+        ghModal.classList.remove('hidden');
+      }
+      return;
+    }
+
+    logLine(`[GitHub] Committing <span class="text-amber">${filename}</span> to repository <span class="text-amber">${repo}</span>...`, 'info');
+
+    let encodedContent = '';
+    if (isBase64) {
+      encodedContent = content;
+    } else {
+      encodedContent = btoa(unescape(encodeURIComponent(content)));
+    }
+
+    const apiUrl = `https://api.github.com/repos/${repo}/contents/${filename}`;
+
+    try {
+      let sha = null;
+      const getRes = await fetch(`${apiUrl}?ref=${branch}`, {
+        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (getRes.ok) {
+        const fileData = await getRes.json();
+        sha = fileData.sha;
+      }
+
+      const timestamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
+      const bodyData = {
+        message: `Update ${filename} at ${timestamp} via GTA SA Online CLEO Compiler`,
+        content: encodedContent,
+        branch: branch
+      };
+      if (sha) bodyData.sha = sha;
+
+      const putRes = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify(bodyData)
+      });
+
+      const resJson = await putRes.json();
+      if (putRes.ok) {
+        logLine(`Successfully committed <span class="text-good">${filename}</span> to your private GitHub repo!`, 'success');
+      } else {
+        logLine(`[GitHub Commit Error] ${resJson.message || 'Unknown commit error'}`, 'error');
+      }
+    } catch (err) {
+      logLine(`[GitHub Network Error during commit] ${err.message}`, 'error');
+    }
+  }
+
+  document.getElementById('gh-save-source').addEventListener('click', () => {
+    ghDropdown.classList.add('hidden');
+    if (!editor) return;
+    const activeTab = openTabs.find(t => t.id === activeTabId);
+    const code = editor.getValue();
+    const filename = activeTab ? activeTab.name : 'script.txt';
+    if (!code.trim()) {
+      logLine('Editor is empty, nothing to commit.', 'warn');
+      return;
+    }
+    commitToGitHub(code, filename, false, true);
+  });
+
+  document.getElementById('gh-save-compiled').addEventListener('click', () => {
+    ghDropdown.classList.add('hidden');
+    const token = localStorage.getItem('gh_token');
+    const repo = localStorage.getItem('gh_repo');
+    if (!token || !repo) {
+      ghModal.classList.add('hidden');
+      return;
+    }
+    compileBtn.click();
+  });
+
+  const TEMPLATES = {
+    spawner: `
+// https://gtamods.com/wiki/Spawn_a_vehicle
+{$CLEO .cs}
+
+0000: NOP 
+
+:CARSPAWN_2
+0001: wait 250 ms 
+00D6: if 
+0256:   player $PLAYER_CHAR defined 
+004D: jump_if_false @CARSPAWN_2 
+00D6: if 
+00E1:   player 0 pressed_key 4 
+004D: jump_if_false @CARSPAWN_2 
+0247: load_model #INFERNUS 
+ 
+:CARSPAWN_45
+00D6: if 
+8248:   not model #INFERNUS available 
+004D: jump_if_false @CARSPAWN_68 
+0001: wait 0 ms 
+0002: jump @CARSPAWN_45 
+
+:CARSPAWN_68
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 4.0 1.4 
+0395: clear_area 1 at 0@ 1@ 2@ radius 3.0 
+00A5: 3@ = create_car #INFERNUS at 0@ 1@ 2@ 
+01C3: remove_references_to_car 3@
+0249: release_model #INFERNUS 
+0001: wait 2000 ms 
+0002: jump @CARSPAWN_2`,
+    
+  };
+
+  const OPCODES = [
+    ['0000:', 'NOP — no operation'],
+    ['0001:', 'wait N — pauses thread for N ms'],
+    ['0002:', 'jump @label — unconditional jump'],
+    ['0004:', 'set var = value'],
+    ['0247:', 'request_model — load model into memory'],
+    ['03A4:', "name_thread 'NAME'"],
+  ];
+
+  const opcodeTable = document.getElementById('opcode-table');
+  OPCODES.forEach(([code, desc]) => {
+    const row = document.createElement('tr');
+    row.className = 'border-b border-hairline/50';
+    row.innerHTML = `<td class="py-1.5 pr-4 text-amber hex-addr">${code}</td><td class="py-1.5 text-gray-400">${desc}</td>`;
+    opcodeTable.appendChild(row);
+  });
+
+    const opcodeModal = document.getElementById('opcode-modal');
+  document.getElementById('opcode-btn').addEventListener('click', () => { opcodeModal.classList.remove('hidden'); openSdkModal(); });
+  document.getElementById('opcode-close').addEventListener('click', () => opcodeModal.classList.add('hidden'));
+  opcodeModal.addEventListener('click', (e) => { if (e.target === opcodeModal) opcodeModal.classList.add('hidden'); });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 🧩 GAME RESOURCE IDs — GTA modding reference hub (MTA Wiki links)
+  // ═══════════════════════════════════════════════════════════════════
+  (function initResourceHub() {
+    const resourceHubModal = document.getElementById('resourceHubModal');
+    const resourceHubBtn = document.getElementById('resource-hub-btn');
+    const resourceHubClose = document.getElementById('resource-hub-close');
+    if (!resourceHubModal || !resourceHubBtn) return;
+
+    resourceHubBtn.addEventListener('click', () => resourceHubModal.classList.remove('hidden'));
+    if (resourceHubClose) resourceHubClose.addEventListener('click', () => resourceHubModal.classList.add('hidden'));
+    resourceHubModal.addEventListener('click', (e) => { if (e.target === resourceHubModal) resourceHubModal.classList.add('hidden'); });
+
+    // Category tab switching
+    const resTabBtns = document.querySelectorAll('.res-tab-btn');
+    const resPanels = document.querySelectorAll('.res-panel');
+    resTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-res-tab');
+        resTabBtns.forEach(b => {
+          b.classList.remove('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+          b.classList.add('text-gray-400', 'border-transparent');
+        });
+        btn.classList.add('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+        btn.classList.remove('text-gray-400', 'border-transparent');
+
+        resPanels.forEach(p => {
+          if (p.id === `res-panel-${target}`) {
+            p.classList.remove('hidden');
+            p.classList.add('flex');
+          } else {
+            p.classList.add('hidden');
+            p.classList.remove('flex');
+          }
+        });
+      });
+    });
+
+    // Quick-reference ID cards with copy buttons (curated common examples —
+    // the linked wiki pages above hold the complete, up-to-date lists)
+        const QUICK_REF = {
+      skins: [
+        ['0', 'cj — Carl "CJ" Johnson'],
+        ['1', 'truth — The Truth'],
+        ['2', 'maccer — Maccer'],
+        ['4', 'bbthin — Big Bear (Thin)'],
+        ['5', 'bb — Big Bear (Big)'],
+        ['6', 'emmet — Emmet'],
+        ['7', 'male01 — Normal Ped / Taxi Driver'],
+        ['23', 'wmybmx — BMXer'],
+        ['27', 'wmycon — Construction Worker'],
+        ['50', 'wmymech — Mechanic'],
+        ['61', 'wmyplt — Pilot'],
+        ['65', 'kendl — Kendl Johnson'],
+        ['102', 'ballas1 — Ballas Gang Member'],
+        ['105', 'fam1 — Grove Street Families'],
+        ['108', 'lsv1 — Los Santos Vagos'],
+        ['111', 'maffa — Mafia'],
+        ['117', 'triada — Triad'],
+      ],
+      vehicles: [
+        ['400', 'Landstalker'],
+        ['411', 'Infernus'],
+        ['415', 'Cheetah'],
+        ['429', 'Banshee'],
+        ['432', 'Rhino (Tank)'],
+        ['445', 'Admiral'],
+        ['451', 'Turismo'],
+        ['461', 'PCJ-600'],
+        ['468', 'Sanchez'],
+        ['477', 'ZR-350'],
+        ['481', 'BMX'],
+        ['494', 'Hotring Racer'],
+        ['495', 'Sandking'],
+        ['522', 'NRG-500'],
+        ['541', 'Bullet'],
+        ['559', 'Jester'],
+        ['560', 'Sultan'],
+        ['562', 'Elegy'],
+      ],
+      weapons: [
+        ['0', 'Unarmed / Fist'],
+        ['1', 'Brass Knuckles'],
+        ['2', 'Golf Club'],
+        ['3', 'Nightstick'],
+        ['4', 'Knife'],
+        ['5', 'Baseball Bat'],
+        ['6', 'Shovel'],
+        ['7', 'Pool Cue'],
+        ['8', 'Katana'],
+        ['9', 'Chainsaw'],
+        ['16', 'Grenades'],
+        ['17', 'Tear Gas'],
+        ['18', 'Molotov Cocktails'],
+        ['22', 'Pistol (Colt 45)'],
+        ['23', 'Silenced Pistol'],
+        ['24', 'Desert Eagle'],
+        ['25', 'Shotgun (Chrome)'],
+        ['26', 'Sawn-off Shotgun'],
+        ['27', 'Combat Shotgun'],
+        ['28', 'Micro Uzi (Mac 10)'],
+        ['29', 'MP5'],
+        ['30', 'AK-47'],
+        ['31', 'M4'],
+        ['33', 'Rifle (Country Rifle)'],
+        ['34', 'Sniper Rifle'],
+        ['35', 'RPG (Rocket Launcher)'],
+        ['36', 'Heat-Seeking Rocket Launcher'],
+        ['37', 'Flamethrower'],
+        ['38', 'Minigun'],
+        ['41', 'Spraycan'],
+        ['42', 'Fire Extinguisher'],
+        ['43', 'Camera'],
+        ['46', 'Parachute'],
+      ],
+      objects: [
+        ['1225', 'Small Gray Box'],
+        ['1330', 'Wooden Crate'],
+        ['3037', 'Traffic Cone'],
+        ['1301', 'Oil Drum'],
+        ['2892', "Pay 'n' Spray Sign"],
+        ['1276', 'Barrier'],
+        ['1337', 'Target / Marker Object'],
+      ],
+      widgets: [
+        ['0', 'enter/exit car'], ['1', 'punch/weapon fire'], ['2', 'accelerate'], ['3', 'brake'], ['4', 'handbrake'],
+        ['5', 'left arrow'], ['6', 'right arrow'], ['7', 'claxon/horn'], ['8', 'phone'], ['9', 'bowties'],
+        ['10', 'kiss'], ['11', 'fire right'], ['13', 'arrow up'], ['14', 'crane magnet car'], ['15', 'down arrow'],
+        ['16', 'fire left'], ['17', 'fire right'], ['18', 'camera'], ['19', 'target'], ['20', 'target'],
+        ['21', 'fire right'], ['22', 'fire right'], ['23', 'fire right'], ['24', 'rudal left'], ['25', 'remote bomb'],
+        ['26', 'rotate left'], ['27', 'rotate right'], ['28', 'dollar'], ['29', 'pistol replace'], ['30', 'exhaust / nos'],
+        ['31', 'Run'], ['33', 'dive'], ['34', 'swim'], ['37', 'green button'], ['38', 'power button'],
+        ['39', 'reset button'], ['40', 'game analog handle'], ['42', 'arrow right / left screen'], ['43', 'arrow up / left screen'],
+        ['44', 'arrow up / right screen'], ['45', 'arrow down / right screen'], ['46', 'arrow up / right screen'], ['47', 'arrow down / right screen'],
+        ['48', 'arrow left / right down screen'], ['49', 'arrow right / right down screen'], ['50', 'plus / left screen'], ['51', 'minus / leftscreeen'],
+        ['52', 'left arrow small'], ['53', 'right arrow small'], ['54', 'checkmark'], ['55', 'man exit arrow'], ['56', 'rotate left'],
+        ['57', '$ / bottom right'], ['62', 'plus / right bottom screen'], ['63', 'minus / right bottom screen'], ['64', 'select a steering method'],
+        ['65', 'choose a touch layout'], ['66', 'open hand / top left'], ['67', 'magnet'], ['68', 'Spike strip'], ['69', 'checkmark / top left (beating)'],
+        ['70', 'checkmark / top left (beating)'], ['71', 'X sign'], ['72', 'X sign'], ['73', 'checkmark right (beating)'], ['74', 'man exit arrow right'],
+        ['75', 'exit text'], ['76', 'left arrow small'], ['77', 'right arrow small'], ['78', 'start text'], ['79', 'right arrow / bottom right'],
+        ['80', 'unknow black box'], ['81', 'unknow black box'], ['82', 'unknow black box'], ['83', 'unknow black box'], ['87', 'basket net'],
+        ['88', 'basket ball'], ['89', 'X sign / top left'], ['90', 'checkmark / bottom right'], ['91', 'divided card with right left arrow'],
+        ['92', 'X2 Button'], ['93', 'double card with plus symbol'], ['94', 'open hand / bottom right'], ['97', 'up arrow yellow'],
+        ['98', 'down arrow blue'], ['99', 'left arrow red'], ['100', 'right arrow green'], ['102', 'man arrow'], ['103', 'unknow black box'],
+        ['104', 'unknow black box'], ['106', 'grove gang recruit'], ['107', 'grove gang remove member'], ['108', 'grove gang follow instruction'],
+        ['109', 'grove gang stop instruction'], ['110', 'grove gang thumb up'], ['111', 'grove gang middle finger'], ['121', 'plus right arrow'],
+        ['122', 'minus left arrow'], ['123', 'deal button'], ['124', 'hold button'], ['125', 'hold button'], ['126', 'hold button'],
+        ['127', 'hold button'], ['128', 'hold button'], ['134', 'exit button'], ['149', 'exit text center']
+      ]
+    };
+
+
+    function copyToClipboard(text, btnEl) {
+      const done = () => {
+        const original = btnEl.textContent;
+        btnEl.textContent = '✓ Copied';
+        btnEl.classList.add('text-good');
+        setTimeout(() => { btnEl.textContent = original; btnEl.classList.remove('text-good'); }, 1100);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+      } else {
+        fallbackCopy(text, done);
+      }
+    }
+
+    function fallbackCopy(text, done) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    Object.keys(QUICK_REF).forEach(category => {
+      const container = document.getElementById(`res-quickref-${category}`);
+      if (!container) return;
+      container.innerHTML = '';
+      QUICK_REF[category].forEach(([id, label]) => {
+        const card = document.createElement('div');
+        card.className = 'flex items-center justify-between gap-2 bg-panel2 border border-hairline rounded-sm px-2.5 py-1.5';
+        card.innerHTML = `
+          <span class="text-gray-300 truncate"><span class="text-amber hex-addr">${id}</span> — ${label}</span>
+          <button class="btn-press copy-res-id shrink-0 text-[10px] px-2 py-1 rounded-sm border border-hairline text-gray-400 hover:text-teal hover:border-teal/50 transition-colors">📋 Copy</button>
+        `;
+        card.querySelector('.copy-res-id').addEventListener('click', (e) => copyToClipboard(id, e.currentTarget));
+        container.appendChild(card);
+      });
+    });
+  })();
+
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 🛠️ GAME SDK & DEFINITIONS MANAGER — flexible file loading, custom
+  // modification, and localStorage caching per game profile.
+  // ═══════════════════════════════════════════════════════════════════
+
+    // Server se jo bhi files aayengi, woh sabhi dynamically list ho jayengi.
+  // Hum ek object ya tracking variable rakhenge jo fetched files ko store karega.
+  let fetchedServerFiles = {};
+
+
+  const sdkCacheKey = (gameId) => `cleo_sdk_cache_${gameId}`;
+  const sdkCustomKey = (gameId) => `cleo_sdk_custom_${gameId}`;
+
+  function getSdkCache(gameId) {
+    try { return JSON.parse(localStorage.getItem(sdkCacheKey(gameId)) || '{}'); } catch (e) { return {}; }
+  }
+  function setSdkCache(gameId, obj) {
+    try { localStorage.setItem(sdkCacheKey(gameId), JSON.stringify(obj)); } catch (e) { /* storage full/unavailable — ignore */ }
+  }
+  // 🔓 User's custom-modified / manually added SDK files for a game profile.
+  // This is exactly what gets attached to the compile payload.
+  function getSdkCustom(gameId) {
+    try { return JSON.parse(localStorage.getItem(sdkCustomKey(gameId)) || '{}'); } catch (e) { return {}; }
+  }
+  function setSdkCustom(gameId, obj) {
+    try { localStorage.setItem(sdkCustomKey(gameId), JSON.stringify(obj)); } catch (e) { /* storage full/unavailable — ignore */ }
+  }
+
+  function updateSdkBadge() {
+    const badge = document.getElementById('sdk-custom-badge');
+    if (!badge) return;
+    const gameId = document.getElementById('gameSelect').value;
+    const count = Object.keys(getSdkCustom(gameId)).length;
+    if (count > 0) {
+      badge.textContent = count;
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  }
+
+  let sdkActiveGame = null;
+  let sdkActiveFile = null;
+  let sdkCacheData = {};
+  let sdkCustomData = {};
+
+  // Merge core + custom + any user-added extra files into one file map:
+  // { filename: { content, isCore, isCustom } }
+  function sdkMergedFiles() {
+    const merged = {};
+    // Server / Cache ki saari files ko load karo
+    Object.keys(sdkCacheData).forEach((f) => {
+      merged[f] = {
+        content: (f in sdkCustomData) ? sdkCustomData[f] : sdkCacheData[f],
+        isCore: true,
+        isCustom: (f in sdkCustomData),
+      };
+    });
+    // User ki add ki gayi custom files
+    Object.keys(sdkCustomData).forEach((f) => {
+      if (!merged[f]) merged[f] = { content: sdkCustomData[f], isCore: false, isCustom: true };
+    });
+    return merged;
+  }
+
+    async function openSdkModal() {
+    sdkActiveGame = document.getElementById('gameSelect').value;
+    document.getElementById('sdk-active-game-label').textContent = currentLabel ? currentLabel.textContent : sdkActiveGame;
+
+    sdkCacheData = getSdkCache(sdkActiveGame);
+    sdkCustomData = getSdkCustom(sdkActiveGame);
+
+    const listEl = document.getElementById('sdk-file-list');
+    if (listEl) listEl.innerHTML = `<div class="px-3 py-3 text-gray-500">Fetching all game SDK files…</div>`;
+    
+    try {
+      const res = await fetch(`${API_BASE}/api/sdk-files?game=${encodeURIComponent(sdkActiveGame)}`);
+      if (res.ok) {
+        const data = await res.json();
+        const fetchedFiles = (data && data.files) || {};
+        Object.keys(fetchedFiles).forEach((f) => {
+          if (typeof fetchedFiles[f] === 'string') {
+            sdkCacheData[f] = fetchedFiles[f];
+          }
+        });
+      }
+    } catch (err) {
+      console.warn("Could not fetch SDK files from server, using local cache.");
+    }
+
+    if (Object.keys(sdkCacheData).length === 0) {
+      sdkCacheData['opcodes.txt'] = '; opcodes.txt — fallback definition.\n';
+      sdkCacheData['SASCM.ini'] = '; SASCM.ini — fallback definition.\n';
+    }
+    setSdkCache(sdkActiveGame, sdkCacheData);
+
+    sdkActiveFile = null;
+    renderSdkFileList();
+    const firstFile = Object.keys(sdkMergedFiles())[0];
+    if (firstFile) selectSdkFile(firstFile);
+    updateSdkBadge();
+  }
+
+  function renderSdkFileList() {
+    const listEl = document.getElementById('sdk-file-list');
+    if (!listEl) return;
+    const files = sdkMergedFiles();
+    const fileNames = Object.keys(files);
+
+    let html = `<div class="px-3 pt-2 pb-1 text-[9.5px] text-gray-600 hex-addr">GAME FOLDER FILES</div>`;
+    fileNames.forEach((f) => {
+      html += sdkFileListItem(f, files[f]);
+    });
+    
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll('[data-sdk-file]').forEach((el) => {
+      el.addEventListener('click', () => selectSdkFile(el.getAttribute('data-sdk-file')));
+    });
+  }
+
+  function sdkFileListItem(name, info) {
+    const active = name === sdkActiveFile;
+    return `
+      <button type="button" data-sdk-file="${escapeHtml(name)}"
+        class="w-full text-left px-3 py-1.5 flex items-center justify-between gap-1.5 transition-colors ${active ? 'bg-panel2 text-amber' : 'text-gray-300 hover:bg-panel2 hover:text-amber'}">
+        <span class="truncate">${escapeHtml(name)}</span>
+        ${info.isCustom ? '<span class="shrink-0 text-[9px] bg-teal/20 text-teal px-1 rounded-sm">● modified</span>' : ''}
+      </button>`;
+  }
+
+      function selectSdkFile(name) {
+    const files = sdkMergedFiles();
+    const info = files[name];
+    sdkActiveFile = name;
+
+    const label = document.getElementById('sdk-active-file-label');
+    const status = document.getElementById('sdk-file-status');
+    const resetBtn = document.getElementById('sdk-reset-file-btn');
+    const deleteBtn = document.getElementById('sdk-delete-file-btn');
+    const saveBtn = document.getElementById('sdk-save-file-btn');
+
+    // SDK textarea editor readymade hai (no async init needed like Monaco)
+
+    if (!info) {
+      sdkEditorEl.value = '';
+      sdkEditorEl.readOnly = false;
+      label.textContent = 'No file selected';
+      status.textContent = '';
+      resetBtn.disabled = true;
+      saveBtn.disabled = true;
+      deleteBtn.classList.add('hidden');
+      return;
+    }
+
+    sdkEditorEl.value = info.content;
+    sdkEditorEl.readOnly = false;
+    
+    label.textContent = name;
+    status.textContent = info.isCustom ? 'Custom — saved in browser storage' : 'Server cached (unmodified)';
+    resetBtn.disabled = !info.isCustom;
+    saveBtn.disabled = false;
+    deleteBtn.classList.toggle('hidden', name in sdkCacheData);
+
+    renderSdkFileList();
+  }
+
+
+
+    document.getElementById('sdk-save-file-btn').addEventListener('click', () => {
+    if (!sdkActiveFile) return;
+    const content = sdkEditorEl.value;
+    sdkCustomData[sdkActiveFile] = content;
+    setSdkCustom(sdkActiveGame, sdkCustomData);
+    selectSdkFile(sdkActiveFile);
+    updateSdkBadge();
+    logLine(`SDK file <span class="text-amber">${escapeHtml(sdkActiveFile)}</span> saved to local custom storage.`, 'success');
+  });
+
+  document.getElementById('sdk-reset-file-btn').addEventListener('click', () => {
+    if (!sdkActiveFile || !(sdkActiveFile in sdkCustomData)) return;
+    delete sdkCustomData[sdkActiveFile];
+    setSdkCustom(sdkActiveGame, sdkCustomData);
+    selectSdkFile(sdkActiveFile);
+    updateSdkBadge();
+    logLine(`SDK file <span class="text-amber">${escapeHtml(sdkActiveFile)}</span> reset to server default.`, 'info');
+  });
+
+  document.getElementById('sdk-delete-file-btn').addEventListener('click', () => {
+    if (!sdkActiveFile) return;
+    if (!confirm(`Remove custom file "${sdkActiveFile}"? This cannot be undone.`)) return;
+    delete sdkCustomData[sdkActiveFile];
+    setSdkCustom(sdkActiveGame, sdkCustomData);
+    const remaining = Object.keys(sdkMergedFiles());
+    sdkActiveFile = null;
+    renderSdkFileList();
+    if (remaining.length > 0) selectSdkFile(remaining[0]);
+    else selectSdkFile(null);
+    updateSdkBadge();
+  });
+
+  document.getElementById('sdk-add-file-btn').addEventListener('click', () => {
+    const name = prompt('New SDK/definition file name (e.g. my_custom_defs.ini):');
+    if (!name) return;
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    if (sdkMergedFiles()[trimmed]) {
+      alert('A file with that name already exists.');
+      return;
+    }
+    sdkCustomData[trimmed] = '';
+    setSdkCustom(sdkActiveGame, sdkCustomData);
+    renderSdkFileList();
+    selectSdkFile(trimmed);
+    updateSdkBadge();
+    logLine(`New custom SDK file <span class="text-amber">${escapeHtml(trimmed)}</span> added.`, 'success');
+  });
+
+  // Tab switcher inside the modal (SDK Files <-> Opcode Reference)
+  const sdkTabFilesBtn = document.getElementById('sdk-tab-files-btn');
+  const sdkTabRefBtn = document.getElementById('sdk-tab-ref-btn');
+  const sdkFilesTab = document.getElementById('sdk-files-tab');
+  const sdkRefTab = document.getElementById('sdk-ref-tab');
+
+  sdkTabFilesBtn.addEventListener('click', () => {
+    sdkFilesTab.classList.remove('hidden');
+    sdkRefTab.classList.add('hidden');
+    sdkTabFilesBtn.classList.add('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+    sdkTabFilesBtn.classList.remove('text-gray-400', 'border-transparent');
+    sdkTabRefBtn.classList.remove('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+    sdkTabRefBtn.classList.add('text-gray-400', 'border-transparent');
+  });
+
+  sdkTabRefBtn.addEventListener('click', () => {
+    sdkRefTab.classList.remove('hidden');
+    sdkFilesTab.classList.add('hidden');
+    sdkTabRefBtn.classList.add('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+    sdkTabRefBtn.classList.remove('text-gray-400', 'border-transparent');
+    sdkTabFilesBtn.classList.remove('bg-panel2', 'text-amber', 'font-semibold', 'border-hairline');
+    sdkTabFilesBtn.classList.add('text-gray-400', 'border-transparent');
+  });
+
+
+  // Keep the badge (and, if the modal is reopened, the file list) in sync
+  // whenever the active game profile changes elsewhere in the app.
+  document.getElementById('gameSelect').addEventListener('change', updateSdkBadge);
+  updateSdkBadge();
+
+              const consoleLog = document.getElementById('console-log');
+  function logLine(text, type = 'info') {
+    // 🛑 Sirf [Compilation Error] aur [Decompilation Error] wale duplicate prefix ko hatao, baaki 'error:' wale logs console par dikhenge!
+//if (text.includes('Queue') || text.includes('[Compilation Error]') || text.includes('[Decompilation Error]')) return;
+if (text.includes('Command:') || text.includes('Queue') || text.includes('[Compilation Error]') || text.includes('[Decompilation Error]')) return;
+
+    const colors = { success: 'text-good', error: 'text-bad', warn: 'text-amber', info: 'text-gray-400' };
+    const line = document.createElement('div');
+    line.className = colors[type] || 'text-gray-300';
+    
+    let cleanText = text;
+    if (type === 'error') {
+      cleanText = cleanText.replace(/[A-Z]:\\[^:\n]+\\([^\\]+\.(txt|cs|csa|csi)):(\d+)/gi, (match, filename, ext, lineNum) => {
+        return `${filename}:${parseInt(lineNum, 10) + 1}`;
+      });
+    }
+
+    line.innerHTML = cleanText;
+    if (consoleLog) {
+      consoleLog.appendChild(line);
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+  }
+
+
+
+
+
+
+  document.getElementById('console-clear').addEventListener('click', () => { consoleLog.innerHTML = ''; });
+
+  let uploadedDbBase64 = null;
+  const dbUploadBtn = document.getElementById('db-upload-btn');
+  const dbUploadInput = document.getElementById('db-upload-input');
+
+  dbUploadBtn.addEventListener('click', () => dbUploadInput.click());
+  dbUploadInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      uploadedDbBase64 = event.target.result.split(',')[1] || event.target.result;
+      logLine(`Custom class database loaded: <span class="text-amber">${escapeHtml(file.name)}</span>`, 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ✨ CLEAN "OPEN FILE" ACTION — opens the native file picker and always
+  // loads the chosen file's content into a brand new editor tab instead of
+  // overwriting whatever is currently open.
+  const uploadBtn = document.getElementById('upload-btn');
+  const fileInput = document.getElementById('file-upload-input');
+
+  uploadBtn.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const textReader = new FileReader();
+    textReader.onload = (event) => {
+      const textContent = event.target.result;
+
+      // Also capture the raw base64 bytes of the opened file so a compiled
+      // script (.cs/.csa/.csi/.sc/.scm) opened this way can later be sent
+      // to the Decompile flow without needing a second file picker.
+      const b64Reader = new FileReader();
+      b64Reader.onload = (b64event) => {
+        const base64Data = (b64event.target.result || '').split(',')[1] || '';
+
+        if (editor) {
+          clearEditorErrorMarkers();
+          const currentTab = openTabs.find(t => t.id === activeTabId);
+          if (currentTab) currentTab.content = editor.getValue();
+        }
+
+        // Always open into a NEW tab — never replace the active tab's content.
+        const newId = 'tab-' + Date.now();
+        openTabs.push({ id: newId, name: file.name, content: textContent, fileBase64: base64Data });
+        switchTab(newId);
+        saveTabsToLocalStorage();
+
+        logLine(`Opened file loaded in a new tab: <span class="text-amber">${escapeHtml(file.name)}</span>`, 'success');
+      };
+      b64Reader.readAsDataURL(file);
+    };
+    textReader.readAsText(file);
+    fileInput.value = '';
+  });
+
+  // DECOMPILE SCRIPT WITH CONFIG & ERROR MODAL INTEGRATION
+  const decompileBtn = document.getElementById('decompile-btn');
+  const decompileInput = document.getElementById('decompile-upload-input'); // legacy input, no longer wired to the button icon
+
+  let decompileTimerInterval; // Decompile ke liye timer variable
+  const VALID_DECOMPILE_EXT = /\.(cs|csa|csi|sc|scm)$/i;
+
+  // ✨ The Decompile button no longer opens a file picker itself — use the
+  // clean "Open File" action (Upload button) to open a file first, then hit
+  // Decompile to validate + decompile whatever file is currently active.
+  decompileBtn.addEventListener('click', () => {
+  
+  // Compile ya Decompile button click par ye check karega
+if (!navigator.onLine && !(window.OfflineMode && OfflineMode.isOn())) {
+  alert('⚠️ Internet Connection Required!\n\nCompiling and decompiling scripts requires an active internet connection to communicate with the Sanny Builder backend server.');
+  logLine('<span class="text-bad">Operation failed: Internet connection is required for compiling/decompiling.</span>', 'error');
+  return; // Yahin rok dega aage ki process ko
+}
+
+  
+    const activeTab = openTabs.find(t => t.id === activeTabId);
+    const currentFilename = activeTab ? activeTab.name : '';
+
+
+    if (!currentFilename || !VALID_DECOMPILE_EXT.test(currentFilename)) {
+      alert('Invalid file type! Please open a compiled script (.cs, .csa, .csi, .sc, .scm) using "Open File" before decompiling.');
+      logLine(`Decompilation aborted: "${escapeHtml(currentFilename || 'untitled')}" is not a valid compiled script file.`, 'error');
+      return;
+    }
+
+    // Prefer the raw bytes captured when the file was opened; fall back to
+    // encoding the current editor text if none were captured.
+    let base64Data = activeTab.fileBase64;
+    if (!base64Data) {
+      const currentText = editor ? editor.getValue() : (activeTab.content || '');
+      base64Data = btoa(unescape(encodeURIComponent(currentText)));
+    }
+
+    runDecompile(currentFilename, base64Data);
+  });
+
+async function runDecompile(fileName, base64Data) {
+  let startTime = Date.now(); // ✨ Yahan function ke shuru mein hi define kar diya
+
+  const selectedGame = document.getElementById('gameSelect').value;
+  const useSource = document.getElementById('use-source-cb').checked;
+  
+  const codeOffsets = document.getElementById('code-offsets-cb')?.checked ? '1' : '0';
+  const ignoreUnknown = document.getElementById('ignore-unknown-cb')?.checked ? '1' : '0';
+  const varCounter = document.getElementById('var-counter-cb')?.checked ? '1' : '0';
+  const constantIndexes = document.getElementById('constant-indexes-cb')?.checked ? '1' : '0';
+  const skipScmHeader = document.getElementById('skip-scm-header-cb')?.checked ? '1' : '0';
+  const skipExtraInfo = document.getElementById('skip-extra-info-cb')?.checked ? '1' : '0';
+  const sb3Compat = document.getElementById('sb3-compat-cb')?.checked ? '1' : '0';
+  
+  const debugBits = `${codeOffsets}${ignoreUnknown}${varCounter}${constantIndexes}${skipScmHeader}${skipExtraInfo}${sb3Compat}`;
+  const customFlags = document.getElementById('custom-flags-input').value;
+
+  const decompilerConfig = {
+    overwriteOutputFile: document.getElementById('opt-overwrite').checked ? 1 : 0,
+    useIfAndOr: document.getElementById('opt-useifandor').checked ? 1 : 0,
+    syntax: document.getElementById('opt-syntax').checked ? 1 : 0,
+    insertOriginalMissionNames: document.getElementById('opt-originalmissionnames').checked ? 1 : 0,
+    labelsFormat: document.getElementById('opt-labelsformat').checked ? 1 : 0,
+    customLabels: document.getElementById('opt-customlabels').checked ? 1 : 0,
+    customVariables: document.getElementById('opt-customvariables').checked ? 1 : 0,
+  };
+
+  // 📴 Offline Mode: decompile on-device with sannycore (WebAssembly)
+  if (window.OfflineMode && await OfflineMode.runDecompile({ fileName, base64Data, selectedGame, useSource, startTime })) return;
+
+  logLine(`Reading file <span class="text-amber">${escapeHtml(fileName)}</span> for decompilation…`, 'info');
+  logLine(`[Queue] Request sent to server queue, waiting for processing…`, 'warn');
+
+  // 🚀 DECOMPILE MODAL & LIVE TIMER START
+  const modal = document.getElementById('compileModal');
+  const statusText = document.getElementById('modalStatusText');
+  const cancelBtn = document.getElementById('cancelCompileBtn');
+  
+  if (modal) {
+    modal.style.display = 'flex';
+    if (cancelBtn) cancelBtn.style.display = 'none';
+  }
+
+  let secondsElapsed = 0;
+  if (statusText) {
+    statusText.innerHTML = `Decompiling code... Elapsed: <span id="timerCount">0</span>s`;
+  }
+  
+  clearInterval(decompileTimerInterval);
+  decompileTimerInterval = setInterval(() => {
+    secondsElapsed++;
+    const timerElem = document.getElementById('timerCount');
+    if (timerElem) timerElem.innerText = secondsElapsed;
+  }, 1000);
+
+  decompileBtn.disabled = true;
+  let timerInterval = setInterval(() => {
+    let seconds = ((Date.now() - startTime) / 1000).toFixed(1);
+    decompileBtn.textContent = `Decompiling… (${seconds}s)`;
+  }, 100);
+
+  try {
+    const response = await fetch(`${API_BASE}/api/decompile`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        fileBase64: base64Data, 
+        filename: fileName,
+        game: selectedGame,
+        useSource,
+        debugBits,
+        decompilerConfig,
+        customFlags
+      }),
+    });
+    const data = await response.json();
+    const executedCmd = data.cmd || 'No command generated';
+    
+    if (data.cmd) {
+      logLine(`Command: <span class="text-amber">${escapeHtml(data.cmd)}</span>`, 'warn');
+    }
+
+    if (!response.ok || !data.success) {
+      clearInterval(decompileTimerInterval);
+      if (modal) modal.style.display = 'none';
+
+      const errorMsg = data.error || 'Unknown decompilation error.';
+      showErrorModal(errorMsg, executedCmd, true);
+      return;
+    }
+
+    // 🚀 SUCCESS: TIMER STOP & MODAL CLOSE
+    clearInterval(decompileTimerInterval);
+
+    if (editor && data.code) {
+      clearEditorErrorMarkers();
+      
+      const currentTab = openTabs.find(t => t.id === activeTabId);
+      if (currentTab) currentTab.content = editor.getValue();
+
+      // ✨ Always open the decompiled result in a brand new tab.
+      const newId = 'tab-' + Date.now();
+      const newName = fileName.replace(/\.(cs|csa|csi|sc|scm)$/i, '.txt');
+      
+      openTabs.push({ id: newId, name: newName, content: data.code });
+      switchTab(newId);
+
+      if (statusText) {
+        statusText.innerText = `Done in ${secondsElapsed}s! Opening file...`;
+      }
+      setTimeout(() => {
+        if (modal) modal.style.display = 'none';
+      }, 800);
+
+      let elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
+      logLine(`Successfully decompiled <span class="text-good">${escapeHtml(fileName)}</span> in <span class="text-amber">${elapsedSeconds}s</span>!`, 'success');
+    }
+
+  } catch (err) {
+    clearInterval(decompileTimerInterval);
+    if (modal) modal.style.display = 'none';
+    logLine(`Error: ${escapeHtml(err.message)}`, 'error');
+    showErrorModal(err.message, 'Network / Request Failed');
+  } finally {
+    clearInterval(timerInterval);
+    clearInterval(decompileTimerInterval);
+    decompileBtn.disabled = false;
+    decompileBtn.textContent = 'Decompile';
+  }
+}
+
+
+  function validateCleoSyntax(code) {
+    if (!editor || !window.monaco) return [];
+    const model = editor.getModel();
+    if (!model) return [];
+    const lines = code.split('\n');
+    const markers = [];
+    const definedLabels = new Set();
+    const referencedLabels = [];
+
+    lines.forEach((lineText, idx) => {
+      const lineNum = idx + 1;
+      const clean = lineText.replace(/\/\/.*$/, '').trim();
+      if (!clean) return;
+      const labelMatch = clean.match(/^:([A-Za-z0-9_]+)/);
+      if (labelMatch) {
+        const lbl = labelMatch[1].toUpperCase();
+        if (definedLabels.has(lbl)) {
+          markers.push({
+            startLineNumber: lineNum, startColumn: 1, endLineNumber: lineNum, endColumn: model.getLineMaxColumn(lineNum),
+            message: `Symbol '${labelMatch[1]}' is already defined.`, severity: monaco.MarkerSeverity.Error
+          });
+        } else {
+          definedLabels.add(lbl);
+        }
+      }
+    });
+
+    lines.forEach((lineText, idx) => {
+      const lineNum = idx + 1;
+      const clean = lineText.replace(/\/\/.*$/, '').trim();
+      if (!clean || clean.startsWith('{$')) return;
+      const refMatches = clean.matchAll(/(?:jump|jf|gosub)\s+@([A-Za-z0-9_]+)/gi);
+      for (const m of refMatches) {
+        referencedLabels.push({ name: m[1].toUpperCase(), originalName: m[1], line: lineNum });
+      }
+    });
+
+    referencedLabels.forEach(ref => {
+      if (!definedLabels.has(ref.name)) {
+        markers.push({
+          startLineNumber: ref.line, startColumn: 1, endLineNumber: ref.line, endColumn: model.getLineMaxColumn(ref.line),
+          message: `Label '@${ref.originalName}' is not defined in script.`, severity: monaco.MarkerSeverity.Error
+        });
+      }
+    });
+
+    return markers;
+  }
+
+  require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.49.0/min/vs' } });
+
+  let errorDecorations = [];
+
+  function clearEditorErrorMarkers() {
+    if (editor && window.monaco) {
+      const model = editor.getModel();
+      monaco.editor.setModelMarkers(model, 'cleo-compiler', []);
+      monaco.editor.setModelMarkers(model, 'cleo-gui-linter', []);
+      errorDecorations = editor.deltaDecorations(errorDecorations, []);
+    }
+  }
+
+  function setEditorErrorMarker(lineNum, message) {
+    if (editor && window.monaco && lineNum && typeof lineNum === 'number') {
+      const model = editor.getModel();
+      const maxLines = model.getLineCount();
+      const adjustedLine = lineNum; 
+      const safeLine = Math.max(1, Math.min(Math.floor(adjustedLine), maxLines));
+
+      monaco.editor.setModelMarkers(model, 'cleo-compiler', [{
+        startLineNumber: safeLine, startColumn: 1, endLineNumber: safeLine, endColumn: model.getLineMaxColumn(safeLine),
+        message: message, severity: monaco.MarkerSeverity.Error
+      }]);
+
+      errorDecorations = editor.deltaDecorations(errorDecorations, [
+        {
+          range: new monaco.Range(safeLine, 1, safeLine, model.getLineMaxColumn(safeLine)),
+          options: { isWholeLine: true, className: 'error-line-highlight' }
+        }
+      ]);
+      editor.revealLineInCenter(safeLine);
+      editor.setPosition({ lineNumber: safeLine, column: 1 });
+    }
+  }
+
+  require(['vs/editor/editor.main'], function () {
+    monaco.languages.register({ id: 'cleo' });
+    monaco.languages.setMonarchTokensProvider('cleo', {
+      ignoreCase: true,
+      tokenizer: {
+        root: [
+          [/\{\$.*?\}/, 'annotation'],
+          [/\/\/.*$/, 'comment'],
+          [/:[A-Z_][A-Z0-9_]*\b/, 'label'],
+          [/@[A-Z_][A-Z0-9_]*\b/, 'label.ref'],
+          [/\b[0-9A-Fa-f]{4}:/, 'opcode'],
+          [/\b(NOP|WAIT|MODEL|PLAYER_ACTOR|IF|JF|JUMP|GOTO|GOSUB|RETURN|ELSE|ENDIF|WHILE|ENDWHILE|THREAD|END_THREAD|SET|AND|OR|NOT|TERMINATE_THIS_CUSTOM_SCRIPT)\b/, 'keyword'],
+          [/\b0x[0-9A-Fa-f]+\b/, 'number.hex'],
+          [/\b\d+\.\d+\b/, 'number.float'],
+          [/\b\d+\b/, 'number'],
+          [/'[^']*'/, 'string'],
+          [/"[^"]*"/, 'string'],
+          [/\$[A-Za-z_][A-Za-z0-9_]*/, 'variable'],
+        ],
+      },
+    });
+
+    monaco.editor.defineTheme('cleo-dark', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [
+        { token: 'opcode', foreground: 'e8a33d', fontStyle: 'bold' },
+        { token: 'keyword', foreground: '7fb3d5' },
+        { token: 'comment', foreground: '5c6672', fontStyle: 'italic' },
+        { token: 'label', foreground: '57b06b', fontStyle: 'bold' },
+        { token: 'label.ref', foreground: '57b06b' },
+        { token: 'number', foreground: 'c9a876' },
+        { token: 'string', foreground: 'd68a6d' },
+        { token: 'variable', foreground: 'e0b3e6' },
+        { token: 'annotation', foreground: '8a6528', fontStyle: 'bold' },
+      ],
+      colors: {
+        'editor.background': '#0e1116',
+        'editor.lineHighlightBackground': '#161b22',
+        'editorLineNumber.foreground': '#3a4451',
+        'editorLineNumber.activeForeground': '#e8a33d',
+        'editorGutter.background': '#0e1116',
+        'editorCursor.foreground': '#e8a33d',
+      },
+    });
+
+            const activeTabObj = openTabs.find(t => t.id === activeTabId) || openTabs[0];
+    editor = monaco.editor.create(document.getElementById('editor-container'), {
+      value: activeTabObj.content,
+      language: 'cleo',
+      theme: 'cleo-dark',
+      fontFamily: '"JetBrains Mono", monospace',
+      fontSize: 13,
+      minimap: { enabled: false },
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      renderLineHighlight: 'all',
+      contextmenu: true, // ✨ Context menu enable karne ke liye
+      quickSuggestions: true,
+      padding: { top: 12 },
+    });
+
+
+
+    let lintTimeout;
+    let saveTimeout;
+    editor.onDidChangeModelContent(() => {
+      // Auto-save logic
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        saveTabsToLocalStorage();
+      }, 500);
+
+      // Linter logic
+      clearTimeout(lintTimeout);
+      lintTimeout = setTimeout(() => {
+        const useFrontendLinter = document.getElementById('frontend-linter-cb')?.checked;
+        if (useFrontendLinter) {
+          const markers = validateCleoSyntax(editor.getValue());
+          monaco.editor.setModelMarkers(editor.getModel(), 'cleo-gui-linter', markers);
+        } else {
+          monaco.editor.setModelMarkers(editor.getModel(), 'cleo-gui-linter', []);
+        }
+      }, 300);
+    });
+
+
+    renderTabs();
+  });
+
+  document.getElementById('templateSelect').addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (TEMPLATES[val] && editor) {
+      clearEditorErrorMarkers();
+      editor.setValue(TEMPLATES[val]);
+      const activeTab = openTabs.find(t => t.id === activeTabId);
+      if (activeTab) activeTab.name = 'script.txt';
+      renderTabs();
+      saveTabsToLocalStorage();
+      logLine(`Loaded template: <span class="text-amber">${val}</span>`, 'info');
+    }
+  });
+
+  // COMPILE SCRIPT WITH CONFIG & ERROR MODAL INTEGRATION
+  const compileBtn = document.getElementById('compile-btn');
+  const compileBtnText = document.getElementById('compile-btn-text');
+  const compileSpinner = document.getElementById('compile-spinner');
+
+  let compileTimerInterval; // Timer variable globally define kiya hai
+
+compileBtn.addEventListener('click', async () => {
+
+// Compile ya Decompile button click par ye check karega
+if (!navigator.onLine && !(window.OfflineMode && OfflineMode.isOn())) {
+  alert('⚠️ Internet Connection Required!\n\nCompiling and decompiling scripts requires an active internet connection to communicate with the Sanny Builder backend server.');
+  logLine('<span class="text-bad">Operation failed: Internet connection is required for compiling/decompiling.</span>', 'error');
+  return; // Yahin rok dega aage ki process ko
+}
+
+  let startTime = Date.now(); // ✨ Yahan compile ke start mein define kar diya
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'game selected-click', {
+        'event_category': 'Button',
+        'event_label': document.getElementById('compile-spinner').value
+    });
+  }
+  
+  if (!editor) return;
+  const code = editor.getValue();
+  const activeTab = openTabs.find(t => t.id === activeTabId);
+  const currentFilename = activeTab ? activeTab.name : 'script.txt';
+
+  // ✨ Validate file extension before compiling — only .txt source files are allowed.
+  if (!/\.txt$/i.test(currentFilename)) {
+    alert('Invalid file type! Only .txt source files can be compiled.');
+    logLine(`Compilation aborted: "${escapeHtml(currentFilename)}" is not a valid .txt source file.`, 'error');
+    return;
+  }
+
+  const selectedGame = document.getElementById('gameSelect').value;
+  const caseSensitive = document.getElementById('case-sensitive-cb').checked;
+  const checkConditions = document.getElementById('check-conditions-cb').checked;
+  const noSplash = document.getElementById('no-splash-cb').checked;
+  const customFlags = document.getElementById('custom-flags-input').value;
+
+  // ✨ Attach any user-modified/added Game SDK definition files for this
+  // profile (from the Game SDK / Opcodes manager) so the backend uses them
+  // temporarily during this compilation.
+  const customSdkFiles = getSdkCustom(selectedGame);
+  if (Object.keys(customSdkFiles).length > 0) {
+    logLine(`Attaching ${Object.keys(customSdkFiles).length} custom SDK file(s) to compilation: <span class="text-teal">${Object.keys(customSdkFiles).map(escapeHtml).join(', ')}</span>`, 'info');
+  }
+
+  const compilerConfig = {
+    checkLocalVariables: document.getElementById('comp-checklocal').checked ? 1 : 0,
+    strictIfValidation: document.getElementById('comp-strictif').checked ? 1 : 0,
+    addExtraInfo: document.getElementById('comp-extrainfo').checked ? 1 : 0,
+    showImgWarning: document.getElementById('comp-imgwarning').checked ? 1 : 0,
+  };
+
+  if (!code.trim()) {
+    logLine('Editor is empty.', 'warn');
+    return;
+  }
+
+  const useFrontendLinter = document.getElementById('frontend-linter-cb').checked;
+  if (useFrontendLinter) {
+    const linterErrors = validateCleoSyntax(code);
+    if (linterErrors.length > 0) {
+      const firstErr = linterErrors[0];
+      logLine(`GUI Linter Error: Line ${firstErr.startLineNumber} — ${escapeHtml(firstErr.message)}`, 'error');
+      setEditorErrorMarker(firstErr.startLineNumber, firstErr.message);
+      showErrorModal(`GUI Linter Error: Line ${firstErr.startLineNumber} — ${firstErr.message}`, 'Frontend Linter Validation');
+      return;
+    }
+  }
+
+  clearEditorErrorMarkers();
+
+  // 📴 Offline Mode: compile on-device with sannycore (WebAssembly); falls back to the server when it returns false
+  if (window.OfflineMode && await OfflineMode.runCompile({ code, currentFilename, selectedGame, compilerConfig, startTime })) return;
+
+  // 🚀 COMPILE MODAL & LIVE TIMER START
+  const modal = document.getElementById('compileModal');
+  const statusText = document.getElementById('modalStatusText');
+  const cancelBtn = document.getElementById('cancelCompileBtn');
+  
+  if (modal) {
+    modal.style.display = 'flex';
+    if (cancelBtn) cancelBtn.style.display = 'none';
+  }
+
+  let secondsElapsed = 0;
+  if (statusText) {
+    statusText.innerHTML = `Compiling code... Elapsed: <span id="timerCount">0</span>s`;
+  }
+  
+  clearInterval(compileTimerInterval);
+  compileTimerInterval = setInterval(() => {
+    secondsElapsed++;
+    const timerElem = document.getElementById('timerCount');
+    if (timerElem) timerElem.innerText = secondsElapsed;
+  }, 1000);
+
+  compileBtn.disabled = true;
+  compileSpinner.classList.remove('hidden');
+
+  logLine(`Sending script to compiler (${selectedGame})…`, 'info');
+  logLine(`[Queue] Request sent to server queue, waiting for processing…`, 'warn');
+
+  try {
+    const response = await fetch(`${API_BASE}/api/compile`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        code, 
+        filename: currentFilename, 
+        game: selectedGame, 
+        caseSensitive, 
+        checkConditions, 
+        noSplash, 
+        compilerConfig,
+        customFlags, 
+        customDbBase64: uploadedDbBase64,
+        customSdkFiles
+      }),
+    });
+
+    const contentType = response.headers.get('content-type') || '';
+    const cmdHeader = response.headers.get('x-compiler-cmd');
+
+    if (!response.ok || contentType.includes('application/json')) {
+      clearInterval(compileTimerInterval);
+      if (modal) modal.style.display = 'none';
+
+      const data = await response.json().catch(() => ({}));
+      const executedCmd = data.cmd || cmdHeader || 'No command generated';
+      
+      if (data.cmd || cmdHeader) {
+        logLine(`Command: <span class="text-amber">${escapeHtml(executedCmd)}</span>`, 'warn');
+      }
+      const message = data.error || `Compilation failed (HTTP ${response.status}).`;
+      logLine(escapeHtml(message), 'error');
+      
+      showErrorModal(message, executedCmd, false);
+
+      if (data.line && typeof data.line === 'number') {
+        setEditorErrorMarker(data.line, message);
+      }
+      return;
+    }
+
+    // 🚀 SUCCESS: TIMER STOP & MODAL CLOSE WITH DOWNLOAD
+    clearInterval(compileTimerInterval);
+
+    if (cmdHeader) {
+      logLine(`Command: <span class="text-amber">${escapeHtml(cmdHeader)}</span>`, 'warn');
+    }
+
+         let filename = response.headers.get('x-download-filename') || currentFilename.replace(/\.txt$/i, '.cs');
+    const blob = await response.blob();
+    
+    // Blob ko text mein read karke naye editor tab mein kholna
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const fileContent = event.target.result;
+
+      if (editor) {
+        clearEditorErrorMarkers();
+        const currentTab = openTabs.find(t => t.id === activeTabId);
+        if (currentTab) currentTab.content = editor.getValue();
+      }
+
+      // Naya unique tab ID aur compiled filename ke sath tab create karna
+      const newId = 'tab-' + Date.now();
+      openTabs.push({ 
+        id: newId, 
+        name: filename, 
+        content: fileContent, 
+        fileBase64: btoa(unescape(encodeURIComponent(fileContent))) 
+      });
+      
+      switchTab(newId);
+      saveTabsToLocalStorage();
+
+      logLine(`Compiled script successfully opened in new tab: <span class="text-amber">${escapeHtml(filename)}</span>`, 'success');
+    };
+    reader.readAsText(blob);
+
+    if (statusText) {
+      statusText.innerText = `Done in ${secondsElapsed}s! Opening in editor...`;
+    }
+    setTimeout(() => {
+      if (modal) modal.style.display = 'none';
+    }, 1000);
+
+    let elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
+    logLine(`Compilation succeeded in <span class="text-amber">${elapsedSeconds}s</span> — <span class="text-good">${filename}</span> processed.`, 'success');
+    
+    const token = localStorage.getItem('gh_token');
+    const repo = localStorage.getItem('gh_repo');
+    const autosave = localStorage.getItem('gh_autosave') === 'true';
+
+    if (token && repo) {
+      let shouldSave = autosave;
+      if (!autosave) {
+        shouldSave = confirm("Auto-save is off. Do you want to save this compiled output to GitHub?");
+      }
+      if (shouldSave) {
+        const b64Reader = new FileReader();
+        b64Reader.onload = function() {
+          const base64Data = b64Reader.result.split(',')[1] || b64Reader.result;
+          commitToGitHub(base64Data, filename, true, false);
+        };
+        b64Reader.readAsDataURL(blob);
+      }
+    }
+
+  } catch (err) {
+    clearInterval(compileTimerInterval);
+    if (modal) modal.style.display = 'none';
+    logLine(`Network error: ${escapeHtml(err.message)}`, 'error');
+    showErrorModal(err.message, 'Network / Request Failed');
+  } finally {
+    clearInterval(compileTimerInterval);
+    compileBtn.disabled = false;
+    compileSpinner.classList.add('hidden');
+    compileBtnText.textContent = 'Compile';
+  }
+});
+
+
+
+
+// Modal close helper function agar defined na ho
+function closeCompileModal() {
+  clearInterval(compileTimerInterval);
+  document.getElementById('compileModal').style.display = 'none';
+}
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+  
+ 
+    // DOM Elements
+  const aiModal = document.getElementById('aiModal');
+  const aiTriggerBtn = document.getElementById('ai-assistant-btn');
+  const aiModalClose = document.getElementById('aiModalClose');
+  const aiModalCloseBtn = document.getElementById('aiModalCloseBtn');
+  const aiGenerateBtn = document.getElementById('aiGenerateBtn');
+  const aiInsertBtn = document.getElementById('aiInsertBtn');
+  const aiPromptInput = document.getElementById('aiPromptInput');
+  const aiOutputBox = document.getElementById('aiOutputBox');
+
+  // ✨ Optional File Upload DOM Elements
+  const aiFileInput = document.getElementById('aiFileInput');
+  const aiBrowseFileBtn = document.getElementById('aiBrowseFileBtn');
+  const aiFileNameInput = document.getElementById('aiFileNameInput');
+  const aiFileStatus = document.getElementById('aiFileStatus');
+
+  let lastGeneratedCode = "";
+  let optionalFileContent = "";
+
+  // Browse & Read Optional File
+  if (aiBrowseFileBtn && aiFileInput) {
+    aiBrowseFileBtn.addEventListener('click', () => aiFileInput.click());
+    aiFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      aiFileNameInput.value = file.name;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        optionalFileContent = event.target.result;
+        aiFileStatus.textContent = `Attached: ${file.name} (${Math.round(file.size/1024)} KB)`;
+        aiFileStatus.className = 'text-[10px] text-good mt-0.5 block';
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // Modal Open / Close Handlers
+  if (aiTriggerBtn) {
+    aiTriggerBtn.addEventListener('click', () => aiModal.classList.remove('hidden'));
+  }
+  if (aiModalClose) {
+    aiModalClose.addEventListener('click', () => aiModal.classList.add('hidden'));
+  }
+  if (aiModalCloseBtn) {
+    aiModalCloseBtn.addEventListener('click', () => aiModal.classList.add('hidden'));
+  }
+
+  // Generate Script via AI & Game Data Context (with Optional File)
+    if (aiGenerateBtn) {
+    aiGenerateBtn.addEventListener('click', async () => {
+      const prompt = aiPromptInput.value.trim();
+      const selectedGame = document.getElementById('gameSelect') ? document.getElementById('gameSelect').value : 'sa_mobile';
+      const customApiKey = localStorage.getItem('user_custom_ai_key') || '';
+      
+      // ✨ Yeh rahi tumhari final model read karne wali line (purana dropdown wala hata diya hai)
+      const selectedAiModel = localStorage.getItem('user_custom_ai_model') || document.getElementById('aiModelInput')?.value.trim() || 'gemini-3.6-flash';
+
+      if (!prompt) {
+        alert('Please enter what you want to create!');
+        return;
+      }
+
+      aiOutputBox.textContent = "🤖 AI is reading game files and generating your script...";
+      aiInsertBtn.classList.add('hidden');
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/ai-assist`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-User-Api-Key': customApiKey 
+          },
+          body: JSON.stringify({ 
+            prompt, 
+            game: selectedGame, 
+            optionalContext: optionalFileContent,
+            model: selectedAiModel 
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          aiOutputBox.textContent = data.explanation + "\n\n--- GENERATED SCRIPT ---\n" + data.code;
+          lastGeneratedCode = data.code;
+          aiInsertBtn.classList.remove('hidden');
+        } else {
+          aiOutputBox.textContent = "Error: " + (data.error || "Failed to generate script.");
+        }
+      } catch (err) {
+        aiOutputBox.textContent = "Network Error: Could not connect to backend AI server.";
+      }
+    });
+ 
+
+  }
+
+  // Insert Generated Code into Monaco Editor as a New Tab
+  if (aiInsertBtn) {
+    aiInsertBtn.addEventListener('click', () => {
+      if (typeof editor !== 'undefined' && lastGeneratedCode) {
+        // 1. Purane active tab ka content save kar lo
+        const currentTab = openTabs.find(t => t.id === activeTabId);
+        if (currentTab) currentTab.content = editor.getValue();
+
+        // 2. Ek naya unique tab ID aur name banao (AI generated script ke liye)
+        const newId = 'tab-' + Date.now();
+        const newName = `ai_script_${openTabs.length + 1}.txt`;
+
+        // 3. openTabs array mein naya tab push karo
+        openTabs.push({ 
+          id: newId, 
+          name: newName, 
+          content: lastGeneratedCode 
+        });
+
+        // 4. Naye tab par switch ho jao aur modal close kar do
+        switchTab(newId);
+        aiModal.classList.add('hidden');
+
+        if (typeof logLine === 'function') {
+          logLine(`AI generated script opened in new tab: <span class="text-amber">${newName}</span>`, 'success');
+        }
+      } else {
+        alert('Editor instance not found or no code generated yet!');
+      }
+    });
+  }
+
+
+let lastFixedCode = "";
+let currentCapturedError = "";
+
+// Error modal khulte hi error store kar lena
+function showErrorModal(errorText, cmdText, isDecompile = false) {
+  const titleEl = document.getElementById('errorModalTitle');
+  const errTypeTitle = isDecompile ? 'Decompilation Error' : 'Compilation Error';
+  if (titleEl) {
+    titleEl.textContent = `❌ ${errTypeTitle}`;
+  }
+
+  currentCapturedError = errorText || 'Unknown error occurred.';
+  let formattedError = currentCapturedError;
+
+  formattedError = formattedError.replace(/[A-Z]:\\[^:\n]+\\([^\\]+\.(txt|cs|csa|csi)):(\d+)/gi, (match, filename, ext, lineNum) => {
+    return `${filename}:${parseInt(lineNum, 10) + 1}`;
+  });
+
+  document.getElementById('errorModalMsg').textContent = formattedError;
+  document.getElementById('aiFixOutputBox').classList.add('hidden');
+  document.getElementById('aiFixInsertBtn').classList.add('hidden');
+  document.getElementById('errorModal').classList.remove('hidden');
+
+  logLine(`[${errTypeTitle}] ${escapeHtml(formattedError)}`, 'error');
+}
+
+// ✨ AI Fix Button Event Listener with Model Selection
+document.getElementById('aiFixErrorBtn').addEventListener('click', async () => {
+  const fixOutputBox = document.getElementById('aiFixOutputBox');
+  const fixInsertBtn = document.getElementById('aiFixInsertBtn');
+  const currentCode = editor ? editor.getValue() : '';
+  const selectedGame = document.getElementById('gameSelect') ? document.getElementById('gameSelect').value : 'sa_mobile';
+  const customApiKey = localStorage.getItem('user_custom_ai_key') || '';
+  const selectedFixModel = localStorage.getItem('user_custom_ai_model') || document.getElementById('aiFixModelInput')?.value.trim() || 'gemini-3.6-flash';
+
+
+  if (!currentCode.trim()) {
+    alert('Editor is empty!');
+    return;
+  }
+
+  fixOutputBox.classList.remove('hidden');
+  fixOutputBox.textContent = "🤖 AI is analyzing your script and fixing the error...";
+  fixInsertBtn.classList.add('hidden');
+
+  try {
+    const response = await fetch(`${API_BASE}/api/ai-fix`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-User-Api-Key': customApiKey
+      },
+      body: JSON.stringify({ 
+        code: currentCode, 
+        error: currentCapturedError, 
+        game: selectedGame,
+        model: selectedFixModel // ✨ Backend par model pass kar diya
+      })
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+      fixOutputBox.textContent = data.explanation + "\n\n--- FIXED SCRIPT ---\n" + data.code;
+      lastFixedCode = data.code;
+      fixInsertBtn.classList.remove('hidden');
+    } else {
+      fixOutputBox.textContent = "Error: " + (data.error || "Failed to fix script.");
+    }
+  } catch (err) {
+    fixOutputBox.textContent = "Network Error: Could not connect to AI server.";
+  }
+});
+
+// Insert Fixed Code into New Tab
+document.getElementById('aiFixInsertBtn').addEventListener('click', () => {
+  if (typeof editor !== 'undefined' && lastFixedCode) {
+    const currentTab = openTabs.find(t => t.id === activeTabId);
+    if (currentTab) currentTab.content = editor.getValue();
+
+    const newId = 'tab-' + Date.now();
+    const newName = `fixed_script_${openTabs.length + 1}.txt`;
+
+    openTabs.push({ 
+      id: newId, 
+      name: newName, 
+      content: lastFixedCode 
+    });
+
+    switchTab(newId);
+    document.getElementById('errorModal').classList.add('hidden');
+    logLine(`AI fixed script opened in new tab: <span class="text-amber">${newName}</span>`, 'success');
+  }
+});
+
+
+  const saveModelBtn = document.getElementById('saveModelBtn');
+if (saveModelBtn) {
+  saveModelBtn.addEventListener('click', () => {
+    const modelVal = document.getElementById('aiModelInput').value.trim();
+    if (modelVal) {
+      localStorage.setItem('user_custom_ai_model', modelVal);
+      const fixModelInput = document.getElementById('aiFixModelInput');
+      if (fixModelInput) fixModelInput.value = modelVal;
+      alert('AI Model saved successfully!');
+    } else {
+      alert('Please enter a valid model name!');
+    }
+  });
+}
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  if (editor) {
+    clearEditorErrorMarkers();
+    editor.setValue('');
+    const activeTab = openTabs.find(t => t.id === activeTabId);
+    if (activeTab) activeTab.name = 'script.txt';
+    renderTabs();
+    uploadedDbBase64 = null;
+    saveTabsToLocalStorage(); // LocalStorage update kar do
+  }
+  logLine('Editor cleared.', 'info');
+});
+
+
+    // ✨ Runtime Folder/Location Selector & Save Logic
+    // ✨ Runtime Folder/Location Selector & Save Logic (Preserves exact user filename & extension)
+    // ✨ Final Fix: MIME type binary (octet-stream) karne se mobile browser extra .txt nahi jodeha
+  document.getElementById('save-file-btn').addEventListener('click', async () => {
+    if (!editor) return;
+    
+    const currentTab = openTabs.find(t => t.id === activeTabId);
+    if (!currentTab) return;
+    
+    const exactFilename = currentTab.name ? currentTab.name.trim() : 'script.txt';
+    const code = editor.getValue();
+
+    if (!code.trim()) {
+      alert('Selected tab is empty, nothing to save!');
+      return;
+    }
+
+    // File System Access API (Runtime Folder Picker)
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: exactFilename,
+          types: [{
+            description: 'Script Files',
+            accept: { 'application/octet-stream': ['.cs', '.csa', '.csi', '.sc', '.scm', '.txt'] }
+          }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(code);
+        await writable.close();
+        logLine(`File successfully saved: <span class="text-amber">${escapeHtml(exactFilename)}</span>`, 'success');
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+
+    // ✨ Blob type ko 'text/plain' se badal kar 'application/octet-stream' kar diya hai
+    const blob = new Blob([code], { type: 'application/octet-stream;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = exactFilename; // ✨ Ab .csa ya .cs ke baad extra .txt nahi aayega
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    logLine(`File <span class="text-amber">${escapeHtml(exactFilename)}</span> saved successfully!`, 'success');
+  });
+
+
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Browser ke default prompt ko roko taaki hum apna custom banner dikha sakein
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Custom install banner create ya show karo
+  showInstallBanner();
+});
+
+function showInstallBanner() {
+  // Check karo agar banner pehle se nahi hai toh bana do
+  if (document.getElementById('pwa-install-banner')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-install-banner';
+  banner.style.cssText = `
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #181d26; border: 1px solid #e8a33d; color: #fff;
+    padding: 12px 20px; border-radius: 8px; z-index: 99999;
+    display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 90%; max-width: 400px;
+  `;
+  banner.innerHTML = `
+    <div style="flex: 1;">
+      <strong style="color: #e8a33d; display: block; margin-bottom: 2px;">📱 Install CLEO Compiler</strong>
+      <span>Install as an app for quick access & offline support.</span>
+    </div>
+    <button id="pwa-install-btn" style="background: #e8a33d; color: #0c0f14; border: none; padding: 8px 12px; font-weight: bold; border-radius: 4px; cursor: pointer;">Install</button>
+    <button id="pwa-close-btn" style="background: transparent; color: #9ca3af; border: none; font-size: 16px; cursor: pointer;">✕</button>
+  `;
+
+  document.body.appendChild(banner);
+
+  document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      }
+      deferredPrompt = null;
+    }
+    banner.remove();
+  });
+
+  document.getElementById('pwa-close-btn').addEventListener('click', () => {
+    banner.remove();
+  });
+}
+
+
+
+
+</script>
+
+
+
+
+<!-- Compile Loading & Ad Modal Overlay -->
+<div id="compileModal" class="modal-overlay" style="display: none;">
+  <div class="modal-content" style="max-width: 440px; width: 95%;">
+    <div class="spinner"></div>
+    <h3>Compiling Your Script...</h3>
+    <p id="modalStatusText">Preparing compiler... (<span id="timerCount">0</span>s)</p>
+    
+    <!-- Ad Container (Bada size) -->
+    <div class="ad-container" style="margin: 15px 0; padding: 12px; background: #1f1f1f; border-radius: 8px; border: 1px solid #333; text-align: center; max-height: 400px; overflow-y: auto; overflow-x: hidden;">
+      <p style="font-size: 10px; color: #e8a33d; margin-bottom: 6px; font-weight: bold; letter-spacing: 1px;">ADVERTISEMENT</p>
+      
+      <div id="adSlot" style="color: #fff;">
+        <!-- Adsterra Live Site Code -->
+        <script async="async" data-cfasync="false" src="https://undergocutlery.com/92f5dd16bd06a34f745596aaea59c66a/invoke.js"></script>
+<div id="container-92f5dd16bd06a34f745596aaea59c66a"></div>
+
+      </div>
+    </div>
+    
+    <button id="cancelCompileBtn" onclick="closeCompileModal()" style="display: none; padding: 8px 16px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Close</button>
+  </div>
+</div>
+
+
+
+
+
+
+<style>
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+.modal-content {
+  background: #1a1a1a; padding: 25px; border-radius: 12px; text-align: center; max-width: 380px; width: 90%; color: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6); border: 1px solid #333;
+}
+.spinner {
+  border: 4px solid #333; border-top: 4px solid #3498db; border-radius: 50%; width: 35px; height: 35px;
+  animation: spin 1s linear infinite; margin: 0 auto 12px auto;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
+
+<script src="offline/offline-mode.js"></script>
+</body>
+
+
+
+</html>
