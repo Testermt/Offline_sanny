@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: mymindstorm/setup-emsdk@v14
-      - run: bash sannycore/build_wasm.sh
+      - run: bash "$(find . -name build_wasm.sh | head -n1)"
       - uses: actions/upload-artifact@v4
         with: { name: sannycore-wasm, path: 'offline/sannycore.*' }
