@@ -792,9 +792,24 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
   std::vector<Insn> code;
   size_t p = 0;
   bool dataTail = false;
+  // Non-code data in the middle of a script (string tables, arrays skipped by a jump) is written as "hex .. end" blocks.
+  // Decoding resumes at the next jump / gosub target that is already known, so the code after the data stays readable.
+  std::vector<std::pair<size_t, size_t>> dataSegs;
+  std::set<long long> jumpTargets;
+  auto resync = [&](size_t start) -> bool {
+    size_t nt = n;
+    for (long long t : jumpTargets) {
+      long long rel = t - (long long)opt.baseOffset;
+      if (rel > (long long)start && rel < (long long)nt) nt = (size_t)rel;
+    }
+    dataSegs.push_back({start, nt});
+    dataTail = true;
+    p = nt;
+    return nt < n;
+  };
   while (p < n) {
     size_t start = p;
-    if (p + 2 > n) { dataTail = true; p = start; break; }
+    if (p + 2 > n) { resync(start); break; }
     uint16_t raw = (uint16_t)(d[p] | (d[p + 1] << 8));
     Insn in;
     in.off = (uint32_t)start;
@@ -802,8 +817,9 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
     in.op = raw & 0x7FFF;
     const OpDef* def = db.op(in.op);
     if (!def) {
-      res.diags.push_back(mk(11, fmt("Unknown opcode %s at offset %d (the rest is written as hex data)", hex4(raw).c_str(), (int)start), (int)start));
-      dataTail = true; p = start; break;
+      res.diags.push_back(mk(11, fmt("Unknown opcode %s at offset %d (written as hex data)", hex4(raw).c_str(), (int)start), (int)start));
+      if (resync(start)) continue;
+      break;
     }
     size_t q = p + 2;
     bool ok = true;
@@ -840,9 +856,22 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
         else in.args.push_back(a);
       }
     }
-    if (!ok) { dataTail = true; p = start; break; }
+    if (!ok) { if (resync(start)) continue; break; }
     code.push_back(in);
     p = q;
+    {  // remember where jumps / gosubs / thread starts point to: code resumes there after a data block
+      std::string body, cm;
+      splitComment(def->fmt, &body, &cm);
+      std::string lb = lower(body);
+      bool jumpish = in.op == 0x0002 || in.op == 0x004C || in.op == 0x004D || in.op == 0x0050 || in.op == (uint16_t)db.jfOp ||
+                     in.op == (uint16_t)db.gosubOp || lb.find("jump") != std::string::npos || lb.find("goto") != std::string::npos ||
+                     lb.find("gosub") != std::string::npos;
+      if (jumpish)
+        for (auto& pc : parsePattern(body))
+          if (pc.ph && pc.spec == 'p' && pc.idx >= 1 && pc.idx <= (int)in.args.size() && isLabelArgType(in.args[pc.idx - 1].type) &&
+              !isExternalLabel(opt, in.args[pc.idx - 1].i))
+            jumpTargets.insert(labelTarget(in.args[pc.idx - 1].i));
+    }
   }
 
   // collect label targets
@@ -858,8 +887,9 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
         { if (!isExternalLabel(opt, in.args[pc.idx - 1].i)) labels.insert(labelTarget(in.args[pc.idx - 1].i)); }
   }
   for (long long t : opt.extraLabelTargets) labels.insert(t);
+  auto inData = [&](long long rel) { for (auto& sg : dataSegs) if (rel >= (long long)sg.first && rel <= (long long)sg.second) return true; return false; };
   for (long long t : labels)
-    if (!insnOffsets.count((uint32_t)(t - (long long)opt.baseOffset)) && !(dataTail && t >= (long long)p && t <= (long long)n))
+    if (!insnOffsets.count((uint32_t)(t - (long long)opt.baseOffset)) && !inData(t - (long long)opt.baseOffset))
       res.diags.push_back(mk(12, fmt("Incorrect jump instruction %lld found at %lld", t, t), (int)t));
 
   Options o2 = opt;
@@ -870,29 +900,21 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
   std::string out;
   if (!opt.cleoExt.empty()) out += opt.cleoExt[0] == '{' ? opt.cleoExt + "\n\n" : "{$CLEO " + opt.cleoExt + "}\n\n";
   bool first = true;
-  for (auto& in : code) {
-    if (labels.count((long long)in.off + opt.baseOffset)) {
-      if (!first) out += "\n";
-      out += ":" + opt2.labelPrefix + "_" + std::to_string((long long)in.off + opt.baseOffset) + "\n";
-    }
-    out += renderInsn(in, *db.op(in.op), db, opt2) + "\n";
-    first = false;
-  }
-  if (dataTail && p < n) {
-    // non-code data (strings, tables) is emitted as "hex .. end" blocks, 16 bytes per row (sanny.exe 0x554330); the data is split
-    // at every label that points into it, so jumps / get_label_addr into the middle of the data keep their targets
+  auto emitData = [&](size_t seg0, size_t seg1) {
+    // data is split at every label that points into it, so jumps / get_label_addr into the middle of the data keep their targets
     std::vector<size_t> cuts;
-    cuts.push_back(p);
+    cuts.push_back(seg0);
     for (long long t : labels) {
       long long rel = t - (long long)opt.baseOffset;
-      if (rel > (long long)p && rel < (long long)n) cuts.push_back((size_t)rel);
+      if (rel > (long long)seg0 && rel < (long long)seg1) cuts.push_back((size_t)rel);
     }
     std::sort(cuts.begin(), cuts.end());
     cuts.erase(std::unique(cuts.begin(), cuts.end()), cuts.end());
-    cuts.push_back(n);
+    cuts.push_back(seg1);
     for (size_t ci = 0; ci + 1 < cuts.size(); ci++) {
       size_t a0 = cuts[ci], b0 = cuts[ci + 1];
-      if (labels.count((long long)a0 + opt.baseOffset)) out += "\n:" + opt.labelPrefix + "_" + std::to_string((long long)a0 + opt.baseOffset) + "\n";
+      if (labels.count((long long)a0 + opt.baseOffset)) out += "\n:" + opt2.labelPrefix + "_" + std::to_string((long long)a0 + opt.baseOffset) + "\n";
+      else if (!first) out += "\n";
       out += "hex\n";
       for (size_t i = a0; i < b0; i += 16) {
         std::string row;
@@ -904,8 +926,20 @@ DecompileResult decompile(const uint8_t* d, size_t n, const Data& db, const Opti
         out += row + "\n";
       }
       out += "end\n";
+      first = false;
     }
+  };
+  size_t si = 0;
+  for (auto& in : code) {
+    while (si < dataSegs.size() && dataSegs[si].first < in.off) { emitData(dataSegs[si].first, dataSegs[si].second); si++; }
+    if (labels.count((long long)in.off + opt.baseOffset)) {
+      if (!first) out += "\n";
+      out += ":" + opt2.labelPrefix + "_" + std::to_string((long long)in.off + opt.baseOffset) + "\n";
+    }
+    out += renderInsn(in, *db.op(in.op), db, opt2) + "\n";
+    first = false;
   }
+  for (; si < dataSegs.size(); si++) emitData(dataSegs[si].first, dataSegs[si].second);
   res.text = out;
   res.ok = res.diags.empty() || !dataTail;
   return res;
